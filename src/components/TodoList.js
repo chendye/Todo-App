@@ -4,32 +4,29 @@
 import React from 'react'
 import TodoItem from './TodoItem'
 
-class TodoList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+const TodoList = React.createClass({
+    getDefaultProps() {
+        return {
             todos : []
         }
-    }
+    },
     _handleTodoItemDeleted(todoId) {
         const {onTodoItemDeleted} = this.props;
-
         onTodoItemDeleted && onTodoItemDeleted(todoId);
-    }
+    },
     render() {
         return (
             <article>
                 <ul className="todo-list">
                     {
-                        this.state.todos.map(function (todo) {
-                            return <TodoItem {...todo}
-                                onDelTodoBtnClicked={this._handleTodoItemDeleted.bind(this)} />
-                        })
+                        this.props.todos.map( todo =>
+                            <TodoItem {...todo}
+                            onDelTodoBtnClicked={this._handleTodoItemDeleted} /> )
                     }
                 </ul>
             </article>
         )
     }
-}
+});
 
 export default TodoList

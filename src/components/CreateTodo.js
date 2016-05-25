@@ -3,27 +3,25 @@
  */
 import React from 'react'
 
-class CreateTodo extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+const CreateTodo = React.createClass({
+    getInitialState() {
+        return {
             content : ''
-        };
-
-    }
+        }
+    },
     _handleFormChange(e) {
         this.setState({
             content : e.target.value
         })
-    }
+    },
     _handleEnterKeyDown(e) {
-        console.info(e)
+        console.info(e);
         if (e.charCode != 13) return false;
         let {onEnterKeyDown} = this.props,
             id = new Date().getTime() + 2016,
             {content} = this.state;
         onEnterKeyDown && onEnterKeyDown({content, id});
-    }
+    },
 
     render() {
         return (
@@ -31,12 +29,12 @@ class CreateTodo extends React.Component {
                 <input className="content-create"
                        type="text"
                        placeholder="请输入内容并按回车键保存"
-                       onChange={this._handleFormChange.bind(this)}
-                       onKeyPress={this._handleEnterKeyDown.bind(this)}
+                       onChange={this._handleFormChange}
+                       onKeyPress={this._handleEnterKeyDown}
                        value={this.state.content} />
             </header>
         )
     }
-}
+});
 
 export default CreateTodo

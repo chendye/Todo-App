@@ -3,22 +3,21 @@
  */
 import React from 'react'
 
-class TodoItem extends React.Component {
-    constructor (props) {
-        super(props);
-        this.state = {
+const TodoItem = React.createClass({
+    getInitialState() {
+        return {
             status : ''
         }
-    }
+    },
 
     _handleDelBtnClick(todoId, e) {
         const {onDelTodoBtnClicked} = this.props;
         onDelTodoBtnClicked && onDelTodoBtnClicked(todoId);
-    }
+    },
     _handleCompletedCheckboxClicked(todoId, e) {
         let status = e.target.checked ? 'completed' : '';
         this.setState({status});
-    }
+    },
     _handleTodoItemClicked(id, e) {
         const {status} = this.state;
         if ( status !== 'completed' || status !== 'editing' ) {
@@ -27,7 +26,7 @@ class TodoItem extends React.Component {
             })
         }
 
-    }
+    },
     render() {
         const {content, id} = this.props;
         const {status} = this.state;
@@ -45,6 +44,6 @@ class TodoItem extends React.Component {
             </li>
         )
     }
-}
+});
 
 export default TodoItem

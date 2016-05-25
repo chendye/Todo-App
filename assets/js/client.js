@@ -46,8 +46,6 @@
 
 	'use strict';
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -70,70 +68,48 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by onlycrazy on 16/5/24.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /**
+	                                                                                                                                                                                                     * Created by onlycrazy on 16/5/24.
+	                                                                                                                                                                                                     */
 
 
-	var App = function (_React$Component) {
-	    _inherits(App, _React$Component);
-
-	    function App(props) {
-	        _classCallCheck(this, App);
-
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
-
-	        _this.state = {
+	var App = _react2.default.createClass({
+	    displayName: 'App',
+	    getInitialState: function getInitialState() {
+	        return {
 	            todos: []
 	        };
-	        return _this;
+	    },
+	    _handleTodoItemDeleted: function _handleTodoItemDeleted(todoId) {
+	        var todos = this.state.todos;
+
+	        var newTodos = todos.filter(function (todo) {
+	            return todo.id !== todoId;
+	        });
+
+	        this.setState({
+	            todos: newTodos
+	        });
+	    },
+	    _handleTodoCreated: function _handleTodoCreated(todo) {
+	        var todos = this.state.todos;
+
+	        this.setState({
+	            todos: [].concat(_toConsumableArray(todos), [todo])
+	        });
+	    },
+	    render: function render() {
+	        var todos = this.state.todos;
+
+	        return _react2.default.createElement(
+	            'section',
+	            { className: 'todo-container' },
+	            _react2.default.createElement(_CreateTodo2.default, { onEnterKeyDown: this._handleTodoCreated }),
+	            _react2.default.createElement(_TodoList2.default, { todos: todos, onTodoItemDeleted: this._handleTodoItemDeleted }),
+	            _react2.default.createElement(_ToolBar2.default, null)
+	        );
 	    }
-
-	    _createClass(App, [{
-	        key: '_handleTodoItemDeleted',
-	        value: function _handleTodoItemDeleted(todoId) {
-	            var todos = this.state.todos;
-
-	            var newTodos = todos.filter(function (todo) {
-	                return todo.id !== todoId;
-	            });
-
-	            this.setState({
-	                todos: newTodos
-	            });
-	        }
-	    }, {
-	        key: '_handleTodoCreated',
-	        value: function _handleTodoCreated(todo) {
-	            var todos = this.state.todos;
-
-	            this.setState({
-	                todos: [].concat(_toConsumableArray(todos), [todo])
-	            });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var todos = this.state.todos;
-
-	            return _react2.default.createElement(
-	                'section',
-	                { className: 'todo-container' },
-	                _react2.default.createElement(_CreateTodo2.default, { onEnterKeyDown: this._handleTodoCreated.bind(this) }),
-	                _react2.default.createElement(_TodoList2.default, { todos: todos, onTodoItemDeleted: this._handleTodoItemDeleted.bind(this) }),
-	                _react2.default.createElement(_ToolBar2.default, null)
-	            );
-	        }
-	    }]);
-
-	    return App;
-	}(_react2.default.Component);
+	});
 
 	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
 
@@ -20456,74 +20432,49 @@
 	    value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by onlycrazy on 16/5/25.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-	var CreateTodo = function (_React$Component) {
-	    _inherits(CreateTodo, _React$Component);
-
-	    function CreateTodo(props) {
-	        _classCallCheck(this, CreateTodo);
-
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CreateTodo).call(this, props));
-
-	        _this.state = {
+	var CreateTodo = _react2.default.createClass({
+	    displayName: 'CreateTodo',
+	    getInitialState: function getInitialState() {
+	        return {
 	            content: ''
 	        };
+	    },
+	    _handleFormChange: function _handleFormChange(e) {
+	        this.setState({
+	            content: e.target.value
+	        });
+	    },
+	    _handleEnterKeyDown: function _handleEnterKeyDown(e) {
+	        console.info(e);
+	        if (e.charCode != 13) return false;
+	        var onEnterKeyDown = this.props.onEnterKeyDown;
+	        var id = new Date().getTime() + 2016;
+	        var content = this.state.content;
 
-	        return _this;
+	        onEnterKeyDown && onEnterKeyDown({ content: content, id: id });
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'header',
+	            null,
+	            _react2.default.createElement('input', { className: 'content-create',
+	                type: 'text',
+	                placeholder: '请输入内容并按回车键保存',
+	                onChange: this._handleFormChange,
+	                onKeyPress: this._handleEnterKeyDown,
+	                value: this.state.content })
+	        );
 	    }
+	}); /**
+	     * Created by onlycrazy on 16/5/25.
+	     */
 
-	    _createClass(CreateTodo, [{
-	        key: '_handleFormChange',
-	        value: function _handleFormChange(e) {
-	            this.setState({
-	                content: e.target.value
-	            });
-	        }
-	    }, {
-	        key: '_handleEnterKeyDown',
-	        value: function _handleEnterKeyDown(e) {
-	            console.info(e);
-	            if (e.charCode != 13) return false;
-	            var onEnterKeyDown = this.props.onEnterKeyDown;
-	            var id = new Date().getTime() + 2016;
-	            var content = this.state.content;
-
-	            onEnterKeyDown && onEnterKeyDown({ content: content, id: id });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'header',
-	                null,
-	                _react2.default.createElement('input', { className: 'content-create',
-	                    type: 'text',
-	                    placeholder: '请输入内容并按回车键保存',
-	                    onChange: this._handleFormChange.bind(this),
-	                    onKeyPress: this._handleEnterKeyDown.bind(this),
-	                    value: this.state.content })
-	            );
-	        }
-	    }]);
-
-	    return CreateTodo;
-	}(_react2.default.Component);
 
 	exports.default = CreateTodo;
 
@@ -20537,9 +20488,10 @@
 	    value: true
 	});
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /**
+	                                                                                                                                                                                                                                                                   * Created by onlycrazy on 16/5/25.
+	                                                                                                                                                                                                                                                                   */
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
 
@@ -20551,57 +20503,35 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by onlycrazy on 16/5/25.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-	var TodoList = function (_React$Component) {
-	    _inherits(TodoList, _React$Component);
-
-	    function TodoList(props) {
-	        _classCallCheck(this, TodoList);
-
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoList).call(this, props));
-
-	        _this.state = {
+	var TodoList = _react2.default.createClass({
+	    displayName: 'TodoList',
+	    getDefaultProps: function getDefaultProps() {
+	        return {
 	            todos: []
 	        };
-	        return _this;
+	    },
+	    _handleTodoItemDeleted: function _handleTodoItemDeleted(todoId) {
+	        var onTodoItemDeleted = this.props.onTodoItemDeleted;
+
+	        onTodoItemDeleted && onTodoItemDeleted(todoId);
+	    },
+	    render: function render() {
+	        var _this = this;
+
+	        return _react2.default.createElement(
+	            'article',
+	            null,
+	            _react2.default.createElement(
+	                'ul',
+	                { className: 'todo-list' },
+	                this.props.todos.map(function (todo) {
+	                    return _react2.default.createElement(_TodoItem2.default, _extends({}, todo, {
+	                        onDelTodoBtnClicked: _this._handleTodoItemDeleted }));
+	                })
+	            )
+	        );
 	    }
-
-	    _createClass(TodoList, [{
-	        key: '_handleTodoItemDeleted',
-	        value: function _handleTodoItemDeleted(todoId) {
-	            var onTodoItemDeleted = this.props.onTodoItemDeleted;
-
-
-	            onTodoItemDeleted && onTodoItemDeleted(todoId);
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'article',
-	                null,
-	                _react2.default.createElement(
-	                    'ul',
-	                    { className: 'todo-list' },
-	                    this.state.todos.map(function (todo) {
-	                        return _react2.default.createElement(_TodoItem2.default, _extends({}, todo, {
-	                            onDelTodoBtnClicked: this._handleTodoItemDeleted.bind(this) }));
-	                    })
-	                )
-	            );
-	        }
-	    }]);
-
-	    return TodoList;
-	}(_react2.default.Component);
+	});
 
 	exports.default = TodoList;
 
@@ -20615,93 +20545,67 @@
 	    value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by onlycrazy on 16/5/25.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-	var TodoItem = function (_React$Component) {
-	    _inherits(TodoItem, _React$Component);
-
-	    function TodoItem(props) {
-	        _classCallCheck(this, TodoItem);
-
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoItem).call(this, props));
-
-	        _this.state = {
+	var TodoItem = _react2.default.createClass({
+	    displayName: 'TodoItem',
+	    getInitialState: function getInitialState() {
+	        return {
 	            status: ''
 	        };
-	        return _this;
-	    }
+	    },
+	    _handleDelBtnClick: function _handleDelBtnClick(todoId, e) {
+	        var onDelTodoBtnClicked = this.props.onDelTodoBtnClicked;
 
-	    _createClass(TodoItem, [{
-	        key: '_handleDelBtnClick',
-	        value: function _handleDelBtnClick(todoId, e) {
-	            var onDelTodoBtnClicked = this.props.onDelTodoBtnClicked;
+	        onDelTodoBtnClicked && onDelTodoBtnClicked(todoId);
+	    },
+	    _handleCompletedCheckboxClicked: function _handleCompletedCheckboxClicked(todoId, e) {
+	        var status = e.target.checked ? 'completed' : '';
+	        this.setState({ status: status });
+	    },
+	    _handleTodoItemClicked: function _handleTodoItemClicked(id, e) {
+	        var status = this.state.status;
 
-	            onDelTodoBtnClicked && onDelTodoBtnClicked(todoId);
+	        if (status !== 'completed' || status !== 'editing') {
+	            this.setState({
+	                status: 'editing'
+	            });
 	        }
-	    }, {
-	        key: '_handleCompletedCheckboxClicked',
-	        value: function _handleCompletedCheckboxClicked(todoId, e) {
-	            var status = e.target.checked ? 'completed' : '';
-	            this.setState({ status: status });
-	        }
-	    }, {
-	        key: '_handleTodoItemClicked',
-	        value: function _handleTodoItemClicked(id, e) {
-	            var status = this.state.status;
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var content = _props.content;
+	        var id = _props.id;
+	        var status = this.state.status;
 
-	            if (status !== 'completed' || status !== 'editing') {
-	                this.setState({
-	                    status: 'editing'
-	                });
-	            }
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var _props = this.props;
-	            var content = _props.content;
-	            var id = _props.id;
-	            var status = this.state.status;
-
-	            return _react2.default.createElement(
-	                'li',
-	                { className: 'todo-item ' + status, onClick: this._handleTodoItemClicked.bind(this, id) },
+	        return _react2.default.createElement(
+	            'li',
+	            { className: 'todo-item ' + status, onClick: this._handleTodoItemClicked.bind(this, id) },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'view' },
+	                _react2.default.createElement('input', { type: 'checkbox',
+	                    title: 'done',
+	                    onClick: this._handleCompletedCheckboxClicked.bind(this, id) }),
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'view' },
-	                    _react2.default.createElement('input', { type: 'checkbox',
-	                        title: 'done',
-	                        onClick: this._handleCompletedCheckboxClicked.bind(this, id) }),
-	                    _react2.default.createElement(
-	                        'label',
-	                        null,
-	                        content
-	                    ),
-	                    _react2.default.createElement('button', { className: 'delete',
-	                        onClick: this._handleDelBtnClick.bind(this, id) })
+	                    'label',
+	                    null,
+	                    content
 	                ),
-	                _react2.default.createElement('input', { className: 'edit', type: 'text' })
-	            );
-	        }
-	    }]);
+	                _react2.default.createElement('button', { className: 'delete',
+	                    onClick: this._handleDelBtnClick.bind(this, id) })
+	            ),
+	            _react2.default.createElement('input', { className: 'edit', type: 'text' })
+	        );
+	    }
+	}); /**
+	     * Created by onlycrazy on 16/5/25.
+	     */
 
-	    return TodoItem;
-	}(_react2.default.Component);
 
 	exports.default = TodoItem;
 
@@ -20715,46 +20619,26 @@
 	    value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by onlycrazy on 16/5/25.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-	var ToolBar = function (_React$Component) {
-	    _inherits(ToolBar, _React$Component);
-
-	    function ToolBar() {
-	        _classCallCheck(this, ToolBar);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(ToolBar).apply(this, arguments));
+	var ToolBar = _react2.default.createClass({
+	    displayName: 'ToolBar',
+	    render: function render() {
+	        return _react2.default.createElement('footer', null);
 	    }
-
-	    _createClass(ToolBar, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement('footer', null);
-	        }
-	    }]);
-
-	    return ToolBar;
-	}(_react2.default.Component);
+	});
 	/*
 	ToolBar.defaultProps ={
 	    numbers : 0
 	};*/
 
+	/**
+	 * Created by onlycrazy on 16/5/25.
+	 */
 	exports.default = ToolBar;
 
 /***/ }

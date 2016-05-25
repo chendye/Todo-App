@@ -3,7 +3,7 @@
  */
 import React from 'react'
 
-class ToolBar extends React.Component {
+const ToolBar = React.createClass({
 
     render() {
         return (
@@ -12,7 +12,7 @@ class ToolBar extends React.Component {
             </footer>
         )
     }
-}
+});
 /*
 ToolBar.defaultProps ={
     numbers : 0
