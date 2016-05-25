@@ -98,6 +98,15 @@
 	            todos: [].concat(_toConsumableArray(todos), [todo])
 	        });
 	    },
+	    _handleTodoItemSave: function _handleTodoItemSave(todo) {
+	        var todos = this.state.todos;
+
+	        var found = todos.findIndex(function (item, index) {
+	            return item.id === todo.id;
+	        });
+	        var newTodos = [].concat(_toConsumableArray(todos.slice(0, found)), [todo], _toConsumableArray(todos.slice(found + 1)));
+	        this.setState({ todos: newTodos });
+	    },
 	    render: function render() {
 	        var todos = this.state.todos;
 
@@ -105,7 +114,9 @@
 	            'section',
 	            { className: 'todo-container' },
 	            _react2.default.createElement(_CreateTodo2.default, { onEnterKeyDown: this._handleTodoCreated }),
-	            _react2.default.createElement(_TodoList2.default, { todos: todos, onTodoItemDeleted: this._handleTodoItemDeleted }),
+	            _react2.default.createElement(_TodoList2.default, { todos: todos,
+	                onTodoItemSave: this._handleTodoItemSave,
+	                onTodoItemDeleted: this._handleTodoItemDeleted }),
 	            _react2.default.createElement(_ToolBar2.default, null)
 	        );
 	    }
@@ -20511,10 +20522,19 @@
 	            todos: []
 	        };
 	    },
+
+	    /*shouldComponentUpdate() {
+	     },*/
 	    _handleTodoItemDeleted: function _handleTodoItemDeleted(todoId) {
 	        var onTodoItemDeleted = this.props.onTodoItemDeleted;
 
 	        onTodoItemDeleted && onTodoItemDeleted(todoId);
+	    },
+	    _handleItemSave: function _handleItemSave(todo) {
+	        var onTodoItemSave = this.props.onTodoItemSave;
+
+
+	        onTodoItemSave && onTodoItemSave(todo);
 	    },
 	    render: function render() {
 	        var _this = this;
@@ -20527,6 +20547,7 @@
 	                { className: 'todo-list' },
 	                this.props.todos.map(function (todo) {
 	                    return _react2.default.createElement(_TodoItem2.default, _extends({}, todo, {
+	                        onSave: _this._handleItemSave,
 	                        onDelTodoBtnClicked: _this._handleTodoItemDeleted }));
 	                })
 	            )
@@ -20579,6 +20600,14 @@
 	            });
 	        }
 	    },
+	    _handleSave: function _handleSave(id, e) {
+	        if (e.charCode !== 13) return false;
+	        var content = e.target.value;
+	        var onSave = this.props.onSave;
+
+	        this.setState({ status: '' });
+	        onSave && onSave({ content: content, id: id });
+	    },
 	    render: function render() {
 	        var _props = this.props;
 	        var content = _props.content;
@@ -20602,7 +20631,8 @@
 	                _react2.default.createElement('button', { className: 'delete',
 	                    onClick: this._handleDelBtnClick.bind(this, id) })
 	            ),
-	            _react2.default.createElement('input', { className: 'edit', defaultValue: content, type: 'text' })
+	            _react2.default.createElement('input', { className: 'edit', defaultValue: content, type: 'text',
+	                onKeyPress: this._handleSave.bind(this, id) })
 	        );
 	    }
 	}); /**

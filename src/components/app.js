@@ -29,12 +29,26 @@ const App = React.createClass({
             todos : [...todos, todo]
         })
     },
+    _handleTodoItemSave(todo) {
+        const {todos} = this.state;
+        const found = todos.findIndex(function (item, index) {
+            return item.id === todo.id;
+        });
+        const newTodos = [
+            ...todos.slice(0, found),
+            todo,
+            ...todos.slice(found + 1)
+        ];
+        this.setState({todos : newTodos});
+    },
     render() {
         let {todos} = this.state;
         return (
             <section className="todo-container">
                 <CreateTodo onEnterKeyDown={this._handleTodoCreated} />
-                <TodoList todos = {todos} onTodoItemDeleted={this._handleTodoItemDeleted} />
+                <TodoList todos = {todos}
+                          onTodoItemSave={this._handleTodoItemSave}
+                          onTodoItemDeleted={this._handleTodoItemDeleted} />
                 <Toolbar />
             </section>
         )

@@ -28,6 +28,13 @@ const TodoItem = React.createClass({
             })
         }
     },
+    _handleSave(id, e) {
+        if (e.charCode !== 13) return false;
+        const content = e.target.value;
+        const {onSave} = this.props;
+        this.setState({status : ''});
+        onSave && onSave({content, id});
+    },
     render() {
         const {content, id} = this.props;
         const {status} = this.state;
@@ -42,7 +49,7 @@ const TodoItem = React.createClass({
                             onClick={this._handleDelBtnClick.bind(this, id)} />
                 </div>
                 <input className="edit" defaultValue={content} type="text"
-                       onChange={this._handleEdit} />
+                       onKeyPress={this._handleSave.bind(this, id)} />
             </li>
         )
     }
