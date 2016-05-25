@@ -2,7 +2,7 @@
  * Created by onlycrazy on 16/5/25.
  */
 import React from 'react'
-
+import DOMUtil from '../utils/dom'
 const TodoItem = React.createClass({
     getInitialState() {
         return {
@@ -25,7 +25,8 @@ const TodoItem = React.createClass({
         if ( status !== 'completed' && status !== 'editing' ) {
             this.setState({
                 status : 'editing'
-            })
+            });
+            setTimeout(()=> DOMUtil.setFocus(this.refs.edit) ,0);
         }
     },
     _handleSave(id, e) {
@@ -49,6 +50,7 @@ const TodoItem = React.createClass({
                             onClick={this._handleDelBtnClick.bind(this, id)} />
                 </div>
                 <input className="edit" defaultValue={content} type="text"
+                       ref="edit"
                        onKeyPress={this._handleSave.bind(this, id)} />
             </li>
         )

@@ -62,7 +62,7 @@
 
 	var _TodoList2 = _interopRequireDefault(_TodoList);
 
-	var _ToolBar = __webpack_require__(171);
+	var _ToolBar = __webpack_require__(172);
 
 	var _ToolBar2 = _interopRequireDefault(_ToolBar);
 
@@ -20571,7 +20571,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _dom = __webpack_require__(171);
+
+	var _dom2 = _interopRequireDefault(_dom);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Created by onlycrazy on 16/5/25.
+	 */
 
 	var TodoItem = _react2.default.createClass({
 	    displayName: 'TodoItem',
@@ -20592,12 +20600,17 @@
 	        this.setState({ status: status });
 	    },
 	    _handleTodoItemClicked: function _handleTodoItemClicked(id, e) {
+	        var _this = this;
+
 	        var status = this.state.status;
 
 	        if (status !== 'completed' && status !== 'editing') {
 	            this.setState({
 	                status: 'editing'
 	            });
+	            setTimeout(function () {
+	                return _dom2.default.setFocus(_this.refs.edit);
+	            }, 0);
 	        }
 	    },
 	    _handleSave: function _handleSave(id, e) {
@@ -20632,18 +20645,48 @@
 	                    onClick: this._handleDelBtnClick.bind(this, id) })
 	            ),
 	            _react2.default.createElement('input', { className: 'edit', defaultValue: content, type: 'text',
+	                ref: 'edit',
 	                onKeyPress: this._handleSave.bind(this, id) })
 	        );
 	    }
-	}); /**
-	     * Created by onlycrazy on 16/5/25.
-	     */
-
+	});
 
 	exports.default = TodoItem;
 
 /***/ },
 /* 171 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	/**
+	 * Created by onlycrazy on 16/5/25.
+	 */
+	function myFocus(sel, start, end) {
+	    if (sel.setSelectionRange) {
+	        sel.focus();
+	        sel.setSelectionRange(start, end);
+	    } else if (sel.createTextRange) {
+	        var range = sel.createTextRange();
+	        range.collapse(true);
+	        range.moveEnd('character', end);
+	        range.moveStart('character', start);
+	        range.select();
+	    }
+	}
+
+	exports.default = {
+	    setFocus: function setFocus(sel) {
+	        length = sel.value.length;
+	        myFocus(sel, length, length);
+	    }
+	};
+
+/***/ },
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
