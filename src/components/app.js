@@ -61,6 +61,14 @@ const App = React.createClass({
             return todo.isCompleted;
         }).length;
     },
+    _onToggleCheckAll(readyToCheckAll) {
+        const {todos} = this.state;
+        const newTodos = [...todos].map((todo, index) => {
+            todo.isCompleted = readyToCheckAll;
+            return todo;
+        });
+        this.setState({todos : newTodos})
+    },
     render() {
         let {todos} = this.state;
         return (
@@ -70,7 +78,9 @@ const App = React.createClass({
                           onTodoCompletedToggle={this._handleTodoItemCompletedToggle}
                           onTodoItemSave={this._handleTodoItemSave}
                           onTodoItemDeleted={this._handleTodoItemDeleted} />
-                <Toolbar done={this._countCompleted()} total={this._countAll()} />
+                <Toolbar done={this._countCompleted()}
+                         handleToggleCheckAll={this._onToggleCheckAll}
+                         total={this._countAll()} />
             </section>
         )
     }

@@ -10,11 +10,19 @@ const ToolBar = React.createClass({
             total : 0
         }
     },
+    _toggleCheckAll() {
+        const {done, total, handleToggleCheckAll} = this.props;
+        const readyToCheckAll = done !== total;
+        handleToggleCheckAll && handleToggleCheckAll(readyToCheckAll);
+    },
     render() {
         const {done, total} = this.props;
         return (
             <footer style={{display : (total > 0 ? '' : 'none')}}>
-                <input type="checkbox" className="footer-item complete-all" />
+                <input type="checkbox"
+                       className="footer-item complete-all"
+                       checked={done === total}
+                       onClick={this._toggleCheckAll} />
                 <span className="footer-item count">{`${done}done/${total}total`}</span>
                 <ul className="footer-item filters">
                     <li><a href="#">All</a></li>

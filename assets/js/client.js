@@ -127,6 +127,15 @@
 	            return todo.isCompleted;
 	        }).length;
 	    },
+	    _onToggleCheckAll: function _onToggleCheckAll(readyToCheckAll) {
+	        var todos = this.state.todos;
+
+	        var newTodos = [].concat(_toConsumableArray(todos)).map(function (todo, index) {
+	            todo.isCompleted = readyToCheckAll;
+	            return todo;
+	        });
+	        this.setState({ todos: newTodos });
+	    },
 	    render: function render() {
 	        var todos = this.state.todos;
 
@@ -138,7 +147,9 @@
 	                onTodoCompletedToggle: this._handleTodoItemCompletedToggle,
 	                onTodoItemSave: this._handleTodoItemSave,
 	                onTodoItemDeleted: this._handleTodoItemDeleted }),
-	            _react2.default.createElement(_ToolBar2.default, { done: this._countCompleted(), total: this._countAll() })
+	            _react2.default.createElement(_ToolBar2.default, { done: this._countCompleted(),
+	                handleToggleCheckAll: this._onToggleCheckAll,
+	                total: this._countAll() })
 	        );
 	    }
 	});
@@ -20664,6 +20675,7 @@
 	        var _props = this.props;
 	        var content = _props.content;
 	        var id = _props.id;
+	        var isCompleted = _props.isCompleted;
 	        var _state = this.state;
 	        var status = _state.status;
 	        var isHovered = _state.isHovered;
@@ -20679,6 +20691,7 @@
 	                { className: 'view' },
 	                _react2.default.createElement('input', { type: 'checkbox',
 	                    title: 'done',
+	                    checked: isCompleted,
 	                    onClick: this._handleCompletedCheckboxClicked.bind(this, id) }),
 	                _react2.default.createElement(
 	                    'label',
@@ -20758,15 +20771,27 @@
 	            total: 0
 	        };
 	    },
-	    render: function render() {
+	    _toggleCheckAll: function _toggleCheckAll() {
 	        var _props = this.props;
 	        var done = _props.done;
 	        var total = _props.total;
+	        var handleToggleCheckAll = _props.handleToggleCheckAll;
+
+	        var readyToCheckAll = done !== total;
+	        handleToggleCheckAll && handleToggleCheckAll(readyToCheckAll);
+	    },
+	    render: function render() {
+	        var _props2 = this.props;
+	        var done = _props2.done;
+	        var total = _props2.total;
 
 	        return _react2.default.createElement(
 	            'footer',
 	            { style: { display: total > 0 ? '' : 'none' } },
-	            _react2.default.createElement('input', { type: 'checkbox', className: 'footer-item complete-all' }),
+	            _react2.default.createElement('input', { type: 'checkbox',
+	                className: 'footer-item complete-all',
+	                checked: done === total,
+	                onClick: this._toggleCheckAll }),
 	            _react2.default.createElement(
 	                'span',
 	                { className: 'footer-item count' },
