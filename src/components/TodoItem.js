@@ -32,14 +32,14 @@ class TodoItem extends React.Component {
         const {content, id} = this.props;
         const {status} = this.state;
         return (
-            <li className={`todo-item ${status}`} onClick={this._handleTodoItemClicked.bind(null, id)}>
+            <li className={`todo-item ${status}`} onClick={this._handleTodoItemClicked.bind(this, id)}>
                 <div className="view">
                     <input type="checkbox"
                            title="done"
-                           onClick={this._handleCompletedCheckboxClicked.bind(null, id)} />
+                           onClick={this._handleCompletedCheckboxClicked.bind(this, id)} />
                     <label>{content}</label>
                     <button className="delete"
-                            onClick={this._handleDelBtnClick.bind(null, id)} />
+                            onClick={this._handleDelBtnClick.bind(this, id)} />
                 </div>
                 <input className="edit" type="text" />
             </li>

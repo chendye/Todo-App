@@ -2,9 +2,9 @@
  * Created by onlycrazy on 16/5/25.
  */
 import React from 'react'
-import TodoItem from 'TodoItem'
+import TodoItem from './TodoItem'
 
-class TodoList extends React.component {
+class TodoList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,7 +23,7 @@ class TodoList extends React.component {
                     {
                         this.state.todos.map(function (todo) {
                             return <TodoItem {...todo}
-                                onDelTodoBtnClicked={this._handleTodoItemDeleted} />
+                                onDelTodoBtnClicked={this._handleTodoItemDeleted.bind(this)} />
                         })
                     }
                 </ul>
