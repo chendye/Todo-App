@@ -14,13 +14,22 @@ class App extends React.Component {
             todos : []
         }
     }
+    _handleTodoItemDeleted(todoId) {
+        const {todos} = this.state;
+        const newTodos = todos.filter(function (todo) {
+            return todo.id !== todoId
+        });
 
+        this.setState({
+            todos : newTodos
+        })
+    }
     render() {
         let {todos} = this.state;
         return (
             <section class="todo-container">
                 <CreateTodo />
-                <TodoList todos = {todos} />
+                <TodoList todos = {todos} onTodoItemDeleted={} />
                 <Toolbar />
             </section>
         )
