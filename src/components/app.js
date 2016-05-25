@@ -24,12 +24,18 @@ class App extends React.Component {
             todos : newTodos
         })
     }
+    _handleTodoCreated(todo) {
+        const {todos} = this.state;
+        this.setState({
+            todos : [...todos, todo]
+        })
+    }
     render() {
         let {todos} = this.state;
         return (
-            <section class="todo-container">
-                <CreateTodo />
-                <TodoList todos = {todos} onTodoItemDeleted={} />
+            <section className="todo-container">
+                <CreateTodo onEnterKeyDown={this._handleTodoCreated} />
+                <TodoList todos = {todos} onTodoItemDeleted={this._handleTodoItemDeleted} />
                 <Toolbar />
             </section>
         )
