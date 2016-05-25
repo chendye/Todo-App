@@ -27,7 +27,6 @@ const TodoItem = React.createClass({
                 status : 'editing'
             })
         }
-
     },
     render() {
         const {content, id} = this.props;
@@ -42,7 +41,8 @@ const TodoItem = React.createClass({
                     <button className="delete"
                             onClick={this._handleDelBtnClick.bind(this, id)} />
                 </div>
-                <input className="edit" type="text" />
+                <input className="edit" defaultValue={content} type="text"
+                       onChange={this._handleEdit} />
             </li>
         )
     }

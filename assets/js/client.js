@@ -20602,7 +20602,7 @@
 	                _react2.default.createElement('button', { className: 'delete',
 	                    onClick: this._handleDelBtnClick.bind(this, id) })
 	            ),
-	            _react2.default.createElement('input', { className: 'edit', type: 'text' })
+	            _react2.default.createElement('input', { className: 'edit', defaultValue: content, type: 'text' })
 	        );
 	    }
 	}); /**
