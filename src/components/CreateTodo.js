@@ -27,7 +27,7 @@ class CreateTodo extends React.Component {
     render() {
         return (
             <header>
-                <input class="content-create"
+                <input className="content-create"
                        type="text"
                        placeholder="请输入内容并按回车键保存"
                        onChange={this.handleFormChange}

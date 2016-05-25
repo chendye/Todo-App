@@ -15,7 +15,7 @@ class TodoList extends React.component {
     render() {
         return (
             <article>
-                <ul class="todo-list">
+                <ul className="todo-list">
                     {
                         this.state.todos.map(function (todo) {
                             return <TodoItem {...todo} />
