@@ -12,6 +12,8 @@ const TodoItem = React.createClass({
     },
 
     _handleDelBtnClick(todoId, e) {
+        let stopPropagation = e.stopPropagation || e.cancelBubble;
+        stopPropagation.call(e);
         const {onDelTodoBtnClicked} = this.props;
         onDelTodoBtnClicked && onDelTodoBtnClicked(todoId);
     },

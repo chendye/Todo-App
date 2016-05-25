@@ -20590,6 +20590,8 @@
 	        };
 	    },
 	    _handleDelBtnClick: function _handleDelBtnClick(todoId, e) {
+	        var stopPropagation = e.stopPropagation || e.cancelBubble;
+	        stopPropagation.call(e);
 	        var onDelTodoBtnClicked = this.props.onDelTodoBtnClicked;
 
 	        onDelTodoBtnClicked && onDelTodoBtnClicked(todoId);
