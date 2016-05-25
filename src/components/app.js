@@ -34,8 +34,8 @@ class App extends React.Component {
         let {todos} = this.state;
         return (
             <section className="todo-container">
-                <CreateTodo onEnterKeyDown={this._handleTodoCreated} />
-                <TodoList todos = {todos} onTodoItemDeleted={this._handleTodoItemDeleted} />
+                <CreateTodo onEnterKeyDown={this._handleTodoCreated.bind(this)} />
+                <TodoList todos = {todos} onTodoItemDeleted={this._handleTodoItemDeleted.bind(this)} />
                 <Toolbar />
             </section>
         )

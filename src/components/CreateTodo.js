@@ -8,7 +8,8 @@ class CreateTodo extends React.Component {
         super(props);
         this.state = {
             content : ''
-        }
+        };
+
     }
     _handleFormChange(e) {
         this.setState({
@@ -16,12 +17,12 @@ class CreateTodo extends React.Component {
         })
     }
     _handleEnterKeyDown(e) {
+        console.info(e)
+        if (e.charCode != 13) return false;
         let {onEnterKeyDown} = this.props,
             id = new Date().getTime() + 2016,
             {content} = this.state;
-        if (e.keycode == 13) {
-            onEnterKeyDown && onEnterKeyDown({content, id});
-        }
+        onEnterKeyDown && onEnterKeyDown({content, id});
     }
 
     render() {
@@ -30,8 +31,8 @@ class CreateTodo extends React.Component {
                 <input className="content-create"
                        type="text"
                        placeholder="请输入内容并按回车键保存"
-                       onChange={this._handleFormChange}
-                       onKeydown={this._handleEnterKeyDown}
+                       onChange={this._handleFormChange.bind(this)}
+                       onKeyPress={this._handleEnterKeyDown.bind(this)}
                        value={this.state.content} />
             </header>
         )

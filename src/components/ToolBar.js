@@ -3,10 +3,7 @@
  */
 import React from 'react'
 
-class ToolBar extends React.component {
-    constructor(props) {
-
-    }
+class ToolBar extends React.Component {
 
     render() {
         return (
@@ -16,9 +13,9 @@ class ToolBar extends React.component {
         )
     }
 }
-
+/*
 ToolBar.defaultProps ={
     numbers : 0
-};
+};*/
 
 export default ToolBar
