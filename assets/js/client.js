@@ -20458,6 +20458,7 @@
 	        var content = this.state.content;
 
 	        onEnterKeyDown && onEnterKeyDown({ content: content, id: id });
+	        this.setState({ content: '' });
 	    },
 	    render: function render() {
 	        return _react2.default.createElement(

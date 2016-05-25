@@ -21,8 +21,8 @@ const CreateTodo = React.createClass({
             id = new Date().getTime() + 2016,
             {content} = this.state;
         onEnterKeyDown && onEnterKeyDown({content, id});
+        this.setState({content : ''});
     },
-
     render() {
         return (
             <header>
