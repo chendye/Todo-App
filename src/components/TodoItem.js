@@ -19,11 +19,20 @@ class TodoItem extends React.Component {
         let status = e.target.checked ? 'completed' : '';
         this.setState({status});
     }
+    _handleTodoItemClicked(id, e) {
+        const {status} = this.state;
+        if ( status !== 'completed' || status !== 'editing' ) {
+            this.setState({
+                status : 'editing'
+            })
+        }
+
+    }
     render() {
         const {content, id} = this.props;
         const {status} = this.state;
         return (
-            <li className={"todo-item " + status}>
+            <li className={`todo-item ${status}`} onClick={this._handleTodoItemClicked.bind(null, id)}>
                 <div className="view">
                     <input type="checkbox"
                            title="done"
