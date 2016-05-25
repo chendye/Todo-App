@@ -74,3 +74,25 @@ section {
     width: 70%;
     margin-bottom: 30px;
 }
+
+.filters li {
+    list-style: none;
+    float: left;
+}
+footer .footer-item {
+    vertical-align: middle;
+    padding: 18px 6px;
+}
+ul.filters {
+    display: inline-block;
+    margin-left: 50px;
+}
+ul.filters a {
+    text-decoration: none;
+    padding: 4px 10px;
+}
+
+a.selected {
+    border: solid 1px #eb4f38;
+    border-radius: 2px;
+}

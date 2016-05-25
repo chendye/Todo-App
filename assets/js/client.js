@@ -107,6 +107,23 @@
 	        var newTodos = [].concat(_toConsumableArray(todos.slice(0, found)), [todo], _toConsumableArray(todos.slice(found + 1)));
 	        this.setState({ todos: newTodos });
 	    },
+	    _handleTodoItemCompletedToggle: function _handleTodoItemCompletedToggle(todoId) {
+	        var todos = [].concat(_toConsumableArray(this.state.todos));
+	        var newTodos = todos.map(function (todo, index) {
+	            if (todo.id === todoId) {
+	                todo.isCompleted = !todo.isCompleted;
+	            }
+	            return todo;
+	        });
+	    },
+	    _countAll: function _countAll() {
+	        return this.state.todos.length;
+	    },
+	    _countCompleted: function _countCompleted() {
+	        return this.state.todos.filter(function (todo, index) {
+	            return todo.isCompleted;
+	        }).length;
+	    },
 	    render: function render() {
 	        var todos = this.state.todos;
 
@@ -115,9 +132,10 @@
 	            { className: 'todo-container' },
 	            _react2.default.createElement(_CreateTodo2.default, { onEnterKeyDown: this._handleTodoCreated }),
 	            _react2.default.createElement(_TodoList2.default, { todos: todos,
+	                onTodoCompletedToggle: this._handleTodoItemCompletedToggle,
 	                onTodoItemSave: this._handleTodoItemSave,
 	                onTodoItemDeleted: this._handleTodoItemDeleted }),
-	            _react2.default.createElement(_ToolBar2.default, null)
+	            _react2.default.createElement(_ToolBar2.default, { done: this._countCompleted(), total: this._countAll() })
 	        );
 	    }
 	});
@@ -20468,7 +20486,7 @@
 	        var id = new Date().getTime() + 2016;
 	        var content = this.state.content;
 
-	        onEnterKeyDown && onEnterKeyDown({ content: content, id: id });
+	        onEnterKeyDown && onEnterKeyDown({ content: content, id: id, isCompleted: false });
 	        this.setState({ content: '' });
 	    },
 	    render: function render() {
@@ -20522,9 +20540,6 @@
 	            todos: []
 	        };
 	    },
-
-	    /*shouldComponentUpdate() {
-	     },*/
 	    _handleTodoItemDeleted: function _handleTodoItemDeleted(todoId) {
 	        var onTodoItemDeleted = this.props.onTodoItemDeleted;
 
@@ -20535,6 +20550,12 @@
 
 
 	        onTodoItemSave && onTodoItemSave(todo);
+	    },
+	    _handleTodoCompletedToggle: function _handleTodoCompletedToggle(todoId) {
+	        var onTodoCompletedToggle = this.props.onTodoCompletedToggle;
+
+
+	        onTodoCompletedToggle && onTodoCompletedToggle(todoId);
 	    },
 	    render: function render() {
 	        var _this = this;
@@ -20548,6 +20569,7 @@
 	                this.props.todos.map(function (todo) {
 	                    return _react2.default.createElement(_TodoItem2.default, _extends({}, todo, {
 	                        onSave: _this._handleItemSave,
+	                        onCompletedToggle: _this._handleTodoCompletedToggle,
 	                        onDelTodoBtnClicked: _this._handleTodoItemDeleted }));
 	                })
 	            )
@@ -20600,6 +20622,9 @@
 	        var status = e.target.checked ? 'completed' : '';
 	        var stopPropagation = e.stopPropagation || e.cancelBubble;
 	        stopPropagation.call(e);
+	        var onCompletedToggle = this.props.onCompletedToggle;
+
+	        onCompletedToggle && onCompletedToggle(todoId);
 	        this.setState({ status: status });
 	    },
 	    _handleTodoItemClicked: function _handleTodoItemClicked(id, e) {
@@ -20724,14 +20749,69 @@
 
 	var ToolBar = _react2.default.createClass({
 	    displayName: 'ToolBar',
+	    getDefaultProps: function getDefaultProps() {
+	        return {
+	            done: 0,
+	            total: 0
+	        };
+	    },
 	    render: function render() {
-	        return _react2.default.createElement('footer', null);
+	        var _props = this.props;
+	        var done = _props.done;
+	        var total = _props.total;
+
+	        return _react2.default.createElement(
+	            'footer',
+	            { style: { display: total > 0 ? '' : 'none' } },
+	            _react2.default.createElement('input', { type: 'checkbox', className: 'footer-item complete-all' }),
+	            _react2.default.createElement(
+	                'span',
+	                { className: 'footer-item count' },
+	                done + 'done/' + total + 'total'
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                { className: 'footer-item filters' },
+	                _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    _react2.default.createElement(
+	                        'a',
+	                        { href: '#' },
+	                        'All'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    _react2.default.createElement(
+	                        'a',
+	                        { href: '#' },
+	                        'Active'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    _react2.default.createElement(
+	                        'a',
+	                        { href: '#' },
+	                        'Completed'
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'button',
+	                { style: { display: done > 0 ? '' : 'none' }, className: 'clear-completed' },
+	                'Clear Completed'
+	            )
+	        );
 	    }
 	});
 	/*
-	ToolBar.defaultProps ={
-	    numbers : 0
-	};*/
+	 ToolBar.defaultProps ={
+	 numbers : 0
+	 };*/
 
 	/**
 	 * Created by onlycrazy on 16/5/25.

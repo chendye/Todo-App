@@ -10,9 +10,7 @@ const TodoList = React.createClass({
             todos : []
         }
     },
-    /*shouldComponentUpdate() {
 
-    },*/
     _handleTodoItemDeleted(todoId) {
         const {onTodoItemDeleted} = this.props;
         onTodoItemDeleted && onTodoItemDeleted(todoId);
@@ -22,6 +20,11 @@ const TodoList = React.createClass({
 
         onTodoItemSave && onTodoItemSave(todo);
     },
+    _handleTodoCompletedToggle(todoId) {
+        const {onTodoCompletedToggle} = this.props;
+
+        onTodoCompletedToggle && onTodoCompletedToggle(todoId);
+    },
     render() {
         return (
             <article>
@@ -30,6 +33,7 @@ const TodoList = React.createClass({
                         this.props.todos.map( todo =>
                             <TodoItem {...todo}
                                 onSave={this._handleItemSave}
+                                onCompletedToggle={this._handleTodoCompletedToggle}
                                 onDelTodoBtnClicked={this._handleTodoItemDeleted} /> )
                     }
                 </ul>

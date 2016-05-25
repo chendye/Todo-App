@@ -21,6 +21,8 @@ const TodoItem = React.createClass({
         let status = e.target.checked ? 'completed' : '';
         const stopPropagation = e.stopPropagation||e.cancelBubble;
         stopPropagation.call(e);
+        const {onCompletedToggle} = this.props;
+        onCompletedToggle && onCompletedToggle(todoId);
         this.setState({status});
     },
     _handleTodoItemClicked(id, e) {

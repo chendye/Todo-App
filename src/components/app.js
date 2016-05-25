@@ -41,15 +41,33 @@ const App = React.createClass({
         ];
         this.setState({todos : newTodos});
     },
+    _handleTodoItemCompletedToggle(todoId) {
+        let todos = [...this.state.todos];
+        let newTodos = todos.map((todo, index) => {
+            if (todo.id === todoId) {
+                todo.isCompleted = !todo.isCompleted;
+            }
+            return todo;
+        })
+    },
+    _countAll() {
+        return this.state.todos.length;
+    },
+    _countCompleted() {
+        return this.state.todos.filter((todo, index) => {
+            return todo.isCompleted;
+        }).length;
+    },
     render() {
         let {todos} = this.state;
         return (
             <section className="todo-container">
                 <CreateTodo onEnterKeyDown={this._handleTodoCreated} />
                 <TodoList todos = {todos}
+                          onTodoCompletedToggle={this._handleTodoItemCompletedToggle}
                           onTodoItemSave={this._handleTodoItemSave}
                           onTodoItemDeleted={this._handleTodoItemDeleted} />
-                <Toolbar />
+                <Toolbar done={this._countCompleted()} total={this._countAll()} />
             </section>
         )
     }
