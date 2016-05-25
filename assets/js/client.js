@@ -20573,7 +20573,7 @@
 	    _handleTodoItemClicked: function _handleTodoItemClicked(id, e) {
 	        var status = this.state.status;
 
-	        if (status !== 'completed' || status !== 'editing') {
+	        if (status !== 'completed' && status !== 'editing') {
 	            this.setState({
 	                status: 'editing'
 	            });

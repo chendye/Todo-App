@@ -22,7 +22,7 @@ const TodoItem = React.createClass({
     },
     _handleTodoItemClicked(id, e) {
         const {status} = this.state;
-        if ( status !== 'completed' || status !== 'editing' ) {
+        if ( status !== 'completed' && status !== 'editing' ) {
             this.setState({
                 status : 'editing'
             })
