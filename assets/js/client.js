@@ -115,6 +115,9 @@
 	            }
 	            return todo;
 	        });
+	        this.setState({
+	            todos: newTodos
+	        });
 	    },
 	    _countAll: function _countAll() {
 	        return this.state.todos.length;

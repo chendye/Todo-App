@@ -48,7 +48,10 @@ const App = React.createClass({
                 todo.isCompleted = !todo.isCompleted;
             }
             return todo;
-        })
+        });
+        this.setState({
+            todos : newTodos
+        });
     },
     _countAll() {
         return this.state.todos.length;
