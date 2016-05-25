@@ -20585,7 +20585,8 @@
 	    displayName: 'TodoItem',
 	    getInitialState: function getInitialState() {
 	        return {
-	            status: ''
+	            status: '',
+	            isHovered: false
 	        };
 	    },
 	    _handleDelBtnClick: function _handleDelBtnClick(todoId, e) {
@@ -20613,23 +20614,36 @@
 	            }, 0);
 	        }
 	    },
-	    _handleSave: function _handleSave(id, e) {
+	    _handleEnterKeyDown: function _handleEnterKeyDown(id, e) {
 	        if (e.charCode !== 13) return false;
+	        this._handleSave(id, e);
+	    },
+	    _handleSave: function _handleSave(id, e) {
 	        var content = e.target.value;
 	        var onSave = this.props.onSave;
 
 	        this.setState({ status: '' });
 	        onSave && onSave({ content: content, id: id });
 	    },
+	    _toggleHover: function _toggleHover(e) {
+	        var isHovered = this.state.isHovered;
+
+	        this.setState({ isHovered: !isHovered });
+	    },
 	    render: function render() {
 	        var _props = this.props;
 	        var content = _props.content;
 	        var id = _props.id;
-	        var status = this.state.status;
+	        var _state = this.state;
+	        var status = _state.status;
+	        var isHovered = _state.isHovered;
 
 	        return _react2.default.createElement(
 	            'li',
-	            { className: 'todo-item ' + status, onClick: this._handleTodoItemClicked.bind(this, id) },
+	            { className: 'todo-item ' + status,
+	                onMouseOver: this._toggleHover,
+	                onMouseOut: this._toggleHover,
+	                onClick: this._handleTodoItemClicked.bind(this, id) },
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'view' },
@@ -20641,12 +20655,17 @@
 	                    null,
 	                    content
 	                ),
-	                _react2.default.createElement('button', { className: 'delete',
-	                    onClick: this._handleDelBtnClick.bind(this, id) })
+	                _react2.default.createElement(
+	                    'button',
+	                    { className: 'delete', style: { display: isHovered ? '' : 'none' },
+	                        onClick: this._handleDelBtnClick.bind(this, id) },
+	                    'x'
+	                )
 	            ),
 	            _react2.default.createElement('input', { className: 'edit', defaultValue: content, type: 'text',
 	                ref: 'edit',
-	                onKeyPress: this._handleSave.bind(this, id) })
+	                onBlur: this._handleSave.bind(this, id),
+	                onKeyPress: this._handleEnterKeyDown.bind(this, id) })
 	        );
 	    }
 	});

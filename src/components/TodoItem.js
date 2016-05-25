@@ -6,7 +6,8 @@ import DOMUtil from '../utils/dom'
 const TodoItem = React.createClass({
     getInitialState() {
         return {
-            status : ''
+            status : '',
+            isHovered : false
         }
     },
 
@@ -29,29 +30,42 @@ const TodoItem = React.createClass({
             setTimeout(()=> DOMUtil.setFocus(this.refs.edit) ,0);
         }
     },
-    _handleSave(id, e) {
+    _handleEnterKeyDown(id, e) {
         if (e.charCode !== 13) return false;
+        this._handleSave(id, e);
+    },
+    _handleSave(id,e ) {
         const content = e.target.value;
         const {onSave} = this.props;
         this.setState({status : ''});
         onSave && onSave({content, id});
     },
+    _toggleHover(e) {
+        let {isHovered} = this.state;
+        this.setState({isHovered : !isHovered});
+    },
     render() {
         const {content, id} = this.props;
-        const {status} = this.state;
+        const {status, isHovered} = this.state;
         return (
-            <li className={`todo-item ${status}`} onClick={this._handleTodoItemClicked.bind(this, id)}>
+            <li className={`todo-item ${status}`}
+                onMouseOver={this._toggleHover}
+                onMouseOut={this._toggleHover}
+                onClick={this._handleTodoItemClicked.bind(this, id)}>
                 <div className="view">
                     <input type="checkbox"
                            title="done"
                            onClick={this._handleCompletedCheckboxClicked.bind(this, id)} />
                     <label>{content}</label>
-                    <button className="delete"
-                            onClick={this._handleDelBtnClick.bind(this, id)} />
+                    <button className="delete" style={{display : (isHovered ? '' : 'none')}}
+                            onClick={this._handleDelBtnClick.bind(this, id)}>
+                        x
+                    </button>
                 </div>
                 <input className="edit" defaultValue={content} type="text"
                        ref="edit"
-                       onKeyPress={this._handleSave.bind(this, id)} />
+                       onBlur={this._handleSave.bind(this, id)}
+                       onKeyPress={this._handleEnterKeyDown.bind(this, id)} />
             </li>
         )
     }
