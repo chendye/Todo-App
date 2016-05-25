@@ -23,6 +23,10 @@ const ToolBar = React.createClass({
         const {onFilter} = this.props;
         onFilter && onFilter(option);
     },
+    _handleClearCompleted(e) {
+        const {onClearCompletedBtnClicked} = this.props;
+        onClearCompletedBtnClicked && onClearCompletedBtnClicked();
+    },
     render() {
         const {done, total, selected} = this.props;
         return (
@@ -37,7 +41,11 @@ const ToolBar = React.createClass({
                     <li><a onClick={this._filterData.bind(null, 'active')} href="#" className={this._select(selected, 'active')}>Active</a></li>
                     <li><a onClick={this._filterData.bind(null, 'completed')} href="#" className={this._select(selected, 'completed')}>Completed</a></li>
                 </ul>
-                <button style={{display : (done > 0 ? '' : 'none')}} className="clear-completed">Clear Completed</button>
+                <button style={{display : (done > 0 ? '' : 'none')}}
+                        onClick={this._handleClearCompleted}
+                        className="clear-completed">
+                    Clear Completed
+                </button>
             </footer>
         )
     }

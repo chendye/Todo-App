@@ -140,6 +140,14 @@
 	    _handleFilter: function _handleFilter(option) {
 	        this.setState({ filters: option });
 	    },
+	    _handleClearCompletedBtnClick: function _handleClearCompletedBtnClick(e) {
+	        var newTodos = [].concat(_toConsumableArray(this.state.todos)).filter(function (todo) {
+	            return !todo.isCompleted;
+	        });
+	        this.setState({
+	            todos: newTodos
+	        });
+	    },
 	    render: function render() {
 	        var _state = this.state;
 	        var todos = _state.todos;
@@ -166,6 +174,7 @@
 	                selected: filters,
 	                onFilter: this._handleFilter,
 	                handleToggleCheckAll: this._onToggleCheckAll,
+	                onClearCompletedBtnClicked: this._handleClearCompletedBtnClick,
 	                total: this._countAll() })
 	        );
 	    }
@@ -20806,6 +20815,11 @@
 
 	        onFilter && onFilter(option);
 	    },
+	    _handleClearCompleted: function _handleClearCompleted(e) {
+	        var onClearCompletedBtnClicked = this.props.onClearCompletedBtnClicked;
+
+	        onClearCompletedBtnClicked && onClearCompletedBtnClicked();
+	    },
 	    render: function render() {
 	        var _props2 = this.props;
 	        var done = _props2.done;
@@ -20857,7 +20871,9 @@
 	            ),
 	            _react2.default.createElement(
 	                'button',
-	                { style: { display: done > 0 ? '' : 'none' }, className: 'clear-completed' },
+	                { style: { display: done > 0 ? '' : 'none' },
+	                    onClick: this._handleClearCompleted,
+	                    className: 'clear-completed' },
 	                'Clear Completed'
 	            )
 	        );

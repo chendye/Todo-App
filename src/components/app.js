@@ -73,6 +73,14 @@ const App = React.createClass({
     _handleFilter(option) {
         this.setState({filters : option});
     },
+    _handleClearCompletedBtnClick(e) {
+        const newTodos = [...this.state.todos].filter((todo) => {
+            return !todo.isCompleted;
+        });
+        this.setState({
+            todos : newTodos
+        })
+    },
     render() {
         let {todos, filters} = this.state;
         const todoList = todos.filter((todo) => {
@@ -95,6 +103,7 @@ const App = React.createClass({
                          selected={filters}
                          onFilter={this._handleFilter}
                          handleToggleCheckAll={this._onToggleCheckAll}
+                         onClearCompletedBtnClicked={this._handleClearCompletedBtnClick}
                          total={this._countAll()} />
             </section>
         )
