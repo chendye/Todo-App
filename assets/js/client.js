@@ -77,7 +77,8 @@
 	    displayName: 'App',
 	    getInitialState: function getInitialState() {
 	        return {
-	            todos: []
+	            todos: [],
+	            filters: 'all'
 	        };
 	    },
 	    _handleTodoItemDeleted: function _handleTodoItemDeleted(todoId) {
@@ -136,18 +137,34 @@
 	        });
 	        this.setState({ todos: newTodos });
 	    },
+	    _handleFilter: function _handleFilter(option) {
+	        this.setState({ filters: option });
+	    },
 	    render: function render() {
-	        var todos = this.state.todos;
+	        var _state = this.state;
+	        var todos = _state.todos;
+	        var filters = _state.filters;
 
+	        var todoList = todos.filter(function (todo) {
+	            if (filters === 'all') {
+	                return todo;
+	            } else if (filters === 'active') {
+	                return !todo.isCompleted;
+	            } else if (filters === 'completed') {
+	                return todo.isCompleted;
+	            }
+	        });
 	        return _react2.default.createElement(
 	            'section',
 	            { className: 'todo-container' },
 	            _react2.default.createElement(_CreateTodo2.default, { onEnterKeyDown: this._handleTodoCreated }),
-	            _react2.default.createElement(_TodoList2.default, { todos: todos,
+	            _react2.default.createElement(_TodoList2.default, { todos: todoList,
 	                onTodoCompletedToggle: this._handleTodoItemCompletedToggle,
 	                onTodoItemSave: this._handleTodoItemSave,
 	                onTodoItemDeleted: this._handleTodoItemDeleted }),
 	            _react2.default.createElement(_ToolBar2.default, { done: this._countCompleted(),
+	                selected: filters,
+	                onFilter: this._handleFilter,
 	                handleToggleCheckAll: this._onToggleCheckAll,
 	                total: this._countAll() })
 	        );
@@ -20768,8 +20785,12 @@
 	    getDefaultProps: function getDefaultProps() {
 	        return {
 	            done: 0,
-	            total: 0
+	            total: 0,
+	            selected: 'all'
 	        };
+	    },
+	    _select: function _select(selected, self) {
+	        return selected === self ? 'selected' : '';
 	    },
 	    _toggleCheckAll: function _toggleCheckAll() {
 	        var _props = this.props;
@@ -20780,10 +20801,16 @@
 	        var readyToCheckAll = done !== total;
 	        handleToggleCheckAll && handleToggleCheckAll(readyToCheckAll);
 	    },
+	    _filterData: function _filterData(option) {
+	        var onFilter = this.props.onFilter;
+
+	        onFilter && onFilter(option);
+	    },
 	    render: function render() {
 	        var _props2 = this.props;
 	        var done = _props2.done;
 	        var total = _props2.total;
+	        var selected = _props2.selected;
 
 	        return _react2.default.createElement(
 	            'footer',
@@ -20805,7 +20832,7 @@
 	                    null,
 	                    _react2.default.createElement(
 	                        'a',
-	                        { href: '#' },
+	                        { onClick: this._filterData.bind(null, 'all'), href: '#', className: this._select(selected, 'all') },
 	                        'All'
 	                    )
 	                ),
@@ -20814,7 +20841,7 @@
 	                    null,
 	                    _react2.default.createElement(
 	                        'a',
-	                        { href: '#' },
+	                        { onClick: this._filterData.bind(null, 'active'), href: '#', className: this._select(selected, 'active') },
 	                        'Active'
 	                    )
 	                ),
@@ -20823,7 +20850,7 @@
 	                    null,
 	                    _react2.default.createElement(
 	                        'a',
-	                        { href: '#' },
+	                        { onClick: this._filterData.bind(null, 'completed'), href: '#', className: this._select(selected, 'completed') },
 	                        'Completed'
 	                    )
 	                )
