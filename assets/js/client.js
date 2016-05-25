@@ -20565,6 +20565,8 @@
 	    },
 	    _handleCompletedCheckboxClicked: function _handleCompletedCheckboxClicked(todoId, e) {
 	        var status = e.target.checked ? 'completed' : '';
+	        var stopPropagation = e.stopPropagation || e.cancelBubble;
+	        stopPropagation.call(e);
 	        this.setState({ status: status });
 	    },
 	    _handleTodoItemClicked: function _handleTodoItemClicked(id, e) {
