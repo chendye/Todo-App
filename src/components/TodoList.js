@@ -11,14 +11,19 @@ class TodoList extends React.component {
             todos : []
         }
     }
+    _handleTodoItemDeleted(todoId) {
+        const {onTodoItemDeleted} = this.props;
 
+        onTodoItemDeleted && onTodoItemDeleted(todoId);
+    }
     render() {
         return (
             <article>
                 <ul className="todo-list">
                     {
                         this.state.todos.map(function (todo) {
-                            return <TodoItem {...todo} />
+                            return <TodoItem {...todo}
+                                onDelTodoBtnClicked={this._handleTodoItemDeleted} />
                         })
                     }
                 </ul>

@@ -30,8 +30,8 @@ class CreateTodo extends React.Component {
                 <input className="content-create"
                        type="text"
                        placeholder="请输入内容并按回车键保存"
-                       onChange={this.handleFormChange}
-                       onKeydown={this.handleEnterKeyDown}
+                       onChange={this._handleFormChange}
+                       onKeydown={this._handleEnterKeyDown}
                        value={this.state.content} />
             </header>
         )
