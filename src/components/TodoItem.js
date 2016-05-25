@@ -16,6 +16,8 @@ const TodoItem = React.createClass({
     },
     _handleCompletedCheckboxClicked(todoId, e) {
         let status = e.target.checked ? 'completed' : '';
+        const stopPropagation = e.stopPropagation||e.cancelBubble;
+        stopPropagation.call(e);
         this.setState({status});
     },
     _handleTodoItemClicked(id, e) {
