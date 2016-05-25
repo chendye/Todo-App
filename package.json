@@ -1,0 +1,35 @@
+{
+  "name": "todo_app",
+  "version": "1.0.0",
+  "description": "just for learning with reactjs, es6",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loveholly/Todo-App.git"
+  },
+  "keywords": [
+    "reactjs",
+    "es6"
+  ],
+  "author": "onlycrazy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/loveholly/Todo-App/issues"
+  },
+  "homepage": "https://github.com/loveholly/Todo-App#readme",
+  "dependencies": {
+    "immutable": "^3.8.1",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
+  },
+  "devDependencies": {
+    "babel-loader": "^6.2.4",
+    "css-loader": "^0.23.1",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.1"
+  }
+}

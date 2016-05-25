@@ -1,0 +1,76 @@
+body, section, ul, li, input {
+    margin: 0;
+    padding: 0;
+}
+
+
+li.todo-item {
+    width: 70%;
+    list-style: none;
+    padding: 14px 0;
+    border-bottom: 1px solid #ecf0f1;
+}
+li.todo-item .edit {
+    display: none;
+}
+li.todo-item label {
+    vertical-align: middle;
+}
+li.todo-item input {
+    vertical-align: middle;
+}
+li.editing .edit {
+    display: block;
+    margin-left: 14px;
+}
+li.editing .view {
+    display: none;
+}
+li.completed label {
+    color: #a9b7b7;
+    text-decoration: line-through;
+}
+div.view {
+    position: relative;
+}
+button.delete {
+    position: absolute;
+    right: 15px;
+    border: 0;
+    outline: none;
+    background: none;
+    padding: 0;
+    font-size: 25px;
+    line-height: 22px;
+    margin: 0;
+    color: #eb4f38;
+}
+input {
+    height: 25px;
+    border-radius: 4px;
+    padding: 3px 7px;
+    border: 1px solid #d9d9d9;
+    outline: none;
+    font-size: 16px;
+    transition: border-color 0.4s ease-in-out;
+}
+input.edit {
+    width: 70%;
+}
+.content-create {
+    height: 30px;
+}
+.todo-container input:focus {
+    border-color: #00bb9c;
+}
+.todo-container {
+    width: 60%;
+    margin: 0 auto;
+}
+section {
+    padding: 50px 30px;
+}
+.content-create {
+    width: 70%;
+    margin-bottom: 30px;
+}
