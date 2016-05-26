@@ -7,7 +7,8 @@ const TodoActions = Reflux.createActions([
     'create',
     'edit',
     'destroy',
-    'toggleCompleted',
+    'save',
+    'toggleComplete',
     'toggleCompleteAll',
     'clearCompleted',
     'filterBy'

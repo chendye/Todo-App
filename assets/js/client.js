@@ -24426,6 +24426,18 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function findBindIndex(id, itemsBinding) {
+	    return itemsBinding.get().findIndex(function (item) {
+	        return item.get('id') === id;
+	    });
+	} /**
+	   * Created by onlycrazy on 16/5/26.
+	   */
+
+	function findItemBinding(id, itemsBinding) {
+	    return itemsBinding.sub(findBindIndex(id, itemsBinding));
+	}
+
 	function configureStore(maCtx) {
 	    _reflux2.default.StoreMethods.getMoreartyContext = function () {
 	        return maCtx;
@@ -24444,13 +24456,27 @@
 	                    id: new Date().getTime() + 2016,
 	                    content: content,
 	                    completed: false,
-	                    editing: false
+	                    editing: false,
+	                    hovered: false
 	                }));
 	            });
 	        },
-	        onEdit: function onEdit() {},
-	        onDestroy: function onDestroy() {},
-	        onToggleCompleted: function onToggleCompleted() {},
+	        onEdit: function onEdit(id, editing) {
+	            var itemBinding = findItemBinding(id, this.itemsBinding);
+	            itemBinding.atomically().set('editing', editing).commit();
+	        },
+	        onDestroy: function onDestroy(id) {
+	            var found = findBindIndex(id, this.itemsBinding);
+	            this.itemsBinding.delete(found);
+	        },
+	        onSave: function onSave(id, content) {
+	            var itemBinding = findItemBinding(id, this.itemsBinding);
+	            itemBinding.atomically().set('content', content).set('editing', false).commit();
+	        },
+	        onToggleComplete: function onToggleComplete(id, completed) {
+	            var itemBinding = findItemBinding(id, this.itemsBinding);
+	            itemBinding.atomically().set('completed', completed).commit();
+	        },
 	        onToggleCompleteAll: function onToggleCompleteAll() {},
 	        onClearCompleted: function onClearCompleted() {
 	            this.itemsBinding.update(function (items) {
@@ -24463,9 +24489,7 @@
 	            this.filterBinding.set(filter);
 	        }
 	    });
-	} /**
-	   * Created by onlycrazy on 16/5/26.
-	   */
+	}
 
 /***/ },
 /* 197 */
@@ -24483,9 +24507,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var TodoActions = _reflux2.default.createActions(['create', 'edit', 'destroy', 'toggleCompleted', 'toggleCompleteAll', 'clearCompleted', 'filterBy']); /**
-	                                                                                                                                                        * Created by onlycrazy on 16/5/26.
-	                                                                                                                                                        */
+	var TodoActions = _reflux2.default.createActions(['create', 'edit', 'destroy', 'save', 'toggleComplete', 'toggleCompleteAll', 'clearCompleted', 'filterBy']); /**
+	                                                                                                                                                               * Created by onlycrazy on 16/5/26.
+	                                                                                                                                                               */
 
 
 	exports.default = TodoActions;
@@ -24634,17 +24658,25 @@
 
 	var _morearty2 = _interopRequireDefault(_morearty);
 
+	var _TodoActions = __webpack_require__(197);
+
+	var _TodoActions2 = _interopRequireDefault(_TodoActions);
+
 	var _dom = __webpack_require__(201);
 
 	var _dom2 = _interopRequireDefault(_dom);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/**
+	 * Created by onlycrazy on 16/5/25.
+	 */
+
 	var TodoItem = _react2.default.createClass({
 	    displayName: 'TodoItem',
 
 	    mixins: [_morearty2.default.Mixin],
-	    _handleTodoItemClicked: function _handleTodoItemClicked(id, e) {
+	    _handleClick: function _handleClick(id, e) {
 	        var _this = this;
 
 	        var status = this.state.status;
@@ -24669,44 +24701,53 @@
 	            return 'editing';
 	        } else return '';
 	    },
+	    _handleToggleComplete: function _handleToggleComplete(e) {
+	        var completed = e.target.checked,
+	            id = this.getDefaultBinding().get('id');
+	        _TodoActions2.default.toggleComplete(id, completed);
+	    },
+	    _handleSave: function _handleSave(e) {
+	        var id = this.getDefaultBinding().get('id'),
+	            content = e.target.value;
+	        _TodoActions2.default.save(id, content);
+	    },
 	    render: function render() {
 	        var todoItem = this.getDefaultBinding().get();
 	        var id = todoItem.get('id'),
 	            content = todoItem.get('content'),
 	            completed = todoItem.get('completed'),
-	            editing = todoItem.get('editing');
+	            editing = todoItem.get('editing'),
+	            hovered = todoItem.get('hovered');
 	        var isHovered = false;
 	        return _react2.default.createElement(
 	            'li',
 	            { className: 'todo-item ' + this._getTheItemStatus(completed, editing),
 	                onMouseOver: this._toggleHover,
-	                onMouseOut: this._toggleHover,
-	                onClick: this._handleTodoItemClicked.bind(this, id) },
+	                onMouseOut: this._toggleHover },
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'view' },
 	                _react2.default.createElement(_morearty2.default.DOM.input, { type: 'checkbox',
 	                    title: 'done',
-	                    checked: completed }),
+	                    checked: completed, onChange: this._handleToggleComplete }),
 	                _react2.default.createElement(
 	                    'label',
-	                    null,
+	                    { onClick: _TodoActions2.default.edit.bind(null, id, true) },
 	                    content
 	                ),
 	                _react2.default.createElement(
 	                    'button',
-	                    { className: 'delete', style: { display: isHovered ? '' : 'none' } },
+	                    { className: 'delete',
+	                        onClick: _TodoActions2.default.destroy.bind(null, id) },
 	                    'x'
 	                )
 	            ),
 	            _react2.default.createElement(_morearty2.default.DOM.input, { className: 'edit', defaultValue: content, type: 'text',
+	                onKeyDown: _morearty2.default.Callback.onEnter(this._handleSave),
 	                ref: 'edit' })
 	        );
 	    }
-	}); /**
-	     * Created by onlycrazy on 16/5/25.
-	     */
-
+	});
 
 	exports.default = TodoItem;
 

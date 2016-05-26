@@ -16,6 +16,9 @@ li.todo-item .edit {
 li.todo-item label {
     vertical-align: middle;
 }
+li.todo-item:hover .delete {
+    display: inline;
+}
 li.todo-item input {
     vertical-align: middle;
 }
@@ -34,6 +37,7 @@ div.view {
     position: relative;
 }
 button.delete {
+    display: none;
     position: absolute;
     right: 15px;
     border: 0;

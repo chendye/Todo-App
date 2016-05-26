@@ -3,10 +3,11 @@
  */
 import React from 'react'
 import Morearty from 'morearty'
+import TodoActions from '../actions/TodoActions'
 import DOMUtil from '../utils/dom'
 const TodoItem = React.createClass({
     mixins : [Morearty.Mixin],
-    _handleTodoItemClicked(id, e) {
+    _handleClick(id, e) {
         const {status} = this.state;
         if ( status !== 'editing' ) {
             this.setState({
@@ -26,29 +27,41 @@ const TodoItem = React.createClass({
             return 'editing';
         }else return '';
     },
+    _handleToggleComplete(e) {
+        const completed = e.target.checked,
+            id = this.getDefaultBinding().get('id');
+        TodoActions.toggleComplete(id, completed);
+    },
+    _handleSave(e) {
+        const id = this.getDefaultBinding().get('id'),
+            content = e.target.value;
+        TodoActions.save(id, content);
+    },
     render() {
         const todoItem = this.getDefaultBinding().get();
         const id = todoItem.get('id'),
             content = todoItem.get('content'),
             completed = todoItem.get('completed'),
-            editing = todoItem.get('editing');
+            editing = todoItem.get('editing'),
+            hovered = todoItem.get('hovered');
         const isHovered = false;
         return (
             <li className={`todo-item ${this._getTheItemStatus(completed, editing)}`}
                 onMouseOver={this._toggleHover}
-                onMouseOut={this._toggleHover}
-                onClick={this._handleTodoItemClicked.bind(this, id)}>
+                onMouseOut={this._toggleHover}>
                 <div className="view">
                     <Morearty.DOM.input type="checkbox"
                            title="done"
-                           checked={completed}/>
-                    <label>{content}</label>
-                    <button className="delete" style={{display : (isHovered ? '' : 'none')}}>
+                           checked={completed} onChange={this._handleToggleComplete}/>
+                    <label onClick={TodoActions.edit.bind(null,id, true)}>{content}</label>
+                    <button className="delete"
+                            onClick={TodoActions.destroy.bind(null, id)}>
                         x
                     </button>
                 </div>
                 <Morearty.DOM.input className="edit" defaultValue={content} type="text"
-                       ref="edit"/>
+                                    onKeyDown={Morearty.Callback.onEnter(this._handleSave)}
+                                    ref="edit"/>
             </li>
         )
     }

@@ -5,6 +5,15 @@ import Reflux from 'reflux'
 import Immutable from 'immutable'
 import TodoActions from '../actions/TodoActions'
 
+function findBindIndex(id, itemsBinding) {
+    return itemsBinding.get().findIndex(function (item) {
+        return item.get('id') === id;
+    });
+}
+function findItemBinding(id, itemsBinding) {
+    return itemsBinding.sub(findBindIndex(id, itemsBinding));
+}
+
 export default function configureStore(maCtx) {
     Reflux.StoreMethods.getMoreartyContext = function () {
         return maCtx;
@@ -23,18 +32,26 @@ export default function configureStore(maCtx) {
                     id : new Date().getTime() + 2016,
                     content,
                     completed : false,
-                    editing : false
+                    editing : false,
+                    hovered : false
                 }));
             })
         },
-        onEdit() {
-
+        onEdit(id, editing) {
+            const itemBinding = findItemBinding(id, this.itemsBinding);
+            itemBinding.atomically().set('editing', editing).commit();
         },
-        onDestroy() {
-
+        onDestroy(id) {
+            const found = findBindIndex(id, this.itemsBinding);
+            this.itemsBinding.delete(found);
         },
-        onToggleCompleted() {
-
+        onSave(id, content) {
+            const itemBinding = findItemBinding(id, this.itemsBinding);
+            itemBinding.atomically().set('content', content).set('editing', false).commit();
+        },
+        onToggleComplete(id, completed) {
+            const itemBinding = findItemBinding(id, this.itemsBinding);
+            itemBinding.atomically().set('completed', completed).commit();
         },
         onToggleCompleteAll() {
 
