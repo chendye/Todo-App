@@ -15,7 +15,6 @@ const CreateTodo = React.createClass({
         })
     },
     _handleEnterKeyDown(e) {
-        console.info(e);
         if (e.charCode != 13) return false;
         let {onEnterKeyDown} = this.props,
             id = new Date().getTime() + 2016,
