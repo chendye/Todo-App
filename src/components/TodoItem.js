@@ -18,16 +18,14 @@ const TodoItem = React.createClass({
         onDelTodoBtnClicked && onDelTodoBtnClicked(todoId);
     },
     _handleCompletedCheckboxClicked(todoId, e) {
-        let status = e.target.checked ? 'completed' : '';
         const stopPropagation = e.stopPropagation||e.cancelBubble;
         stopPropagation.call(e);
         const {onCompletedToggle} = this.props;
         onCompletedToggle && onCompletedToggle(todoId);
-        this.setState({status});
     },
     _handleTodoItemClicked(id, e) {
         const {status} = this.state;
-        if ( status !== 'completed' && status !== 'editing' ) {
+        if ( status !== 'editing' ) {
             this.setState({
                 status : 'editing'
             });
@@ -48,11 +46,20 @@ const TodoItem = React.createClass({
         let {isHovered} = this.state;
         this.setState({isHovered : !isHovered});
     },
+    _getTheItemStatus() {
+        const {isCompleted} = this.props;
+        const {status} = this.state;
+        if (isCompleted) {
+            return 'completed';
+        }else if(status === 'editing') {
+            return 'editing';
+        }else return '';
+    },
     render() {
         const {content, id, isCompleted} = this.props;
-        const {status, isHovered} = this.state;
+        const {isHovered} = this.state;
         return (
-            <li className={`todo-item ${status}`}
+            <li className={`todo-item ${this._getTheItemStatus()}`}
                 onMouseOver={this._toggleHover}
                 onMouseOut={this._toggleHover}
                 onClick={this._handleTodoItemClicked.bind(this, id)}>
