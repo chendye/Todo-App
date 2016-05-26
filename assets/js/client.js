@@ -20659,20 +20659,18 @@
 	        onDelTodoBtnClicked && onDelTodoBtnClicked(todoId);
 	    },
 	    _handleCompletedCheckboxClicked: function _handleCompletedCheckboxClicked(todoId, e) {
-	        var status = e.target.checked ? 'completed' : '';
 	        var stopPropagation = e.stopPropagation || e.cancelBubble;
 	        stopPropagation.call(e);
 	        var onCompletedToggle = this.props.onCompletedToggle;
 
 	        onCompletedToggle && onCompletedToggle(todoId);
-	        this.setState({ status: status });
 	    },
 	    _handleTodoItemClicked: function _handleTodoItemClicked(id, e) {
 	        var _this = this;
 
 	        var status = this.state.status;
 
-	        if (status !== 'completed' && status !== 'editing') {
+	        if (status !== 'editing') {
 	            this.setState({
 	                status: 'editing'
 	            });
@@ -20697,18 +20695,26 @@
 
 	        this.setState({ isHovered: !isHovered });
 	    },
+	    _getTheItemStatus: function _getTheItemStatus() {
+	        var isCompleted = this.props.isCompleted;
+	        var status = this.state.status;
+
+	        if (isCompleted) {
+	            return 'completed';
+	        } else if (status === 'editing') {
+	            return 'editing';
+	        } else return '';
+	    },
 	    render: function render() {
 	        var _props = this.props;
 	        var content = _props.content;
 	        var id = _props.id;
 	        var isCompleted = _props.isCompleted;
-	        var _state = this.state;
-	        var status = _state.status;
-	        var isHovered = _state.isHovered;
+	        var isHovered = this.state.isHovered;
 
 	        return _react2.default.createElement(
 	            'li',
-	            { className: 'todo-item ' + status,
+	            { className: 'todo-item ' + this._getTheItemStatus(),
 	                onMouseOver: this._toggleHover,
 	                onMouseOut: this._toggleHover,
 	                onClick: this._handleTodoItemClicked.bind(this, id) },
@@ -20798,7 +20804,7 @@
 	            selected: 'all'
 	        };
 	    },
-	    _select: function _select(selected, self) {
+	    _shouldSelect: function _shouldSelect(selected, self) {
 	        return selected === self ? 'selected' : '';
 	    },
 	    _toggleCheckAll: function _toggleCheckAll() {
@@ -20846,7 +20852,7 @@
 	                    null,
 	                    _react2.default.createElement(
 	                        'a',
-	                        { onClick: this._filterData.bind(null, 'all'), href: '#', className: this._select(selected, 'all') },
+	                        { onClick: this._filterData.bind(null, 'all'), href: '#', className: this._shouldSelect(selected, 'all') },
 	                        'All'
 	                    )
 	                ),
@@ -20855,7 +20861,7 @@
 	                    null,
 	                    _react2.default.createElement(
 	                        'a',
-	                        { onClick: this._filterData.bind(null, 'active'), href: '#', className: this._select(selected, 'active') },
+	                        { onClick: this._filterData.bind(null, 'active'), href: '#', className: this._shouldSelect(selected, 'active') },
 	                        'Active'
 	                    )
 	                ),
@@ -20864,7 +20870,7 @@
 	                    null,
 	                    _react2.default.createElement(
 	                        'a',
-	                        { onClick: this._filterData.bind(null, 'completed'), href: '#', className: this._select(selected, 'completed') },
+	                        { onClick: this._filterData.bind(null, 'completed'), href: '#', className: this._shouldSelect(selected, 'completed') },
 	                        'Completed'
 	                    )
 	                )
