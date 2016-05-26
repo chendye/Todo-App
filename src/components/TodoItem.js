@@ -61,6 +61,7 @@ const TodoItem = React.createClass({
                 </div>
                 <Morearty.DOM.input className="edit" defaultValue={content} type="text"
                                     onKeyDown={Morearty.Callback.onEnter(this._handleSave)}
+                                    onBlur={TodoActions.edit.bind(null, id, false)}
                                     ref="edit"/>
             </li>
         )

@@ -24744,6 +24744,7 @@
 	            ),
 	            _react2.default.createElement(_morearty2.default.DOM.input, { className: 'edit', defaultValue: content, type: 'text',
 	                onKeyDown: _morearty2.default.Callback.onEnter(this._handleSave),
+	                onBlur: _TodoActions2.default.edit.bind(null, id, false),
 	                ref: 'edit' })
 	        );
 	    }
