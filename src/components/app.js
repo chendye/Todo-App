@@ -10,7 +10,8 @@ import Toolbar from './ToolBar'
 const App = React.createClass({
     getInitialState() {
         return {
-            todos : []
+            todos : [],
+            filters : 'all'
         }
     },
     _handleTodoItemDeleted(todoId) {
@@ -41,15 +42,69 @@ const App = React.createClass({
         ];
         this.setState({todos : newTodos});
     },
+    _handleTodoItemCompletedToggle(todoId) {
+        let todos = [...this.state.todos];
+        let newTodos = todos.map((todo, index) => {
+            if (todo.id === todoId) {
+                todo.isCompleted = !todo.isCompleted;
+            }
+            return todo;
+        });
+        this.setState({
+            todos : newTodos
+        });
+    },
+    _countAll() {
+        return this.state.todos.length;
+    },
+    _countCompleted() {
+        return this.state.todos.filter((todo, index) => {
+            return todo.isCompleted;
+        }).length;
+    },
+    _onToggleCheckAll(readyToCheckAll) {
+        const {todos} = this.state;
+        const newTodos = [...todos].map((todo, index) => {
+            todo.isCompleted = readyToCheckAll;
+            return todo;
+        });
+        this.setState({todos : newTodos})
+    },
+    _handleFilter(option) {
+        this.setState({filters : option});
+    },
+    _handleClearCompletedBtnClick(e) {
+        const newTodos = [...this.state.todos].filter((todo) => {
+            return !todo.isCompleted;
+        });
+        this.setState({
+            todos : newTodos
+        })
+    },
     render() {
-        let {todos} = this.state;
+        let {todos, filters} = this.state;
+        const todoList = todos.filter((todo) => {
+            if (filters === 'all') {
+                return todo;
+            }else if (filters === 'active') {
+                return !todo.isCompleted;
+            }else if(filters === 'completed') {
+                return todo.isCompleted;
+            }
+        });
         return (
             <section className="todo-container">
                 <CreateTodo onEnterKeyDown={this._handleTodoCreated} />
-                <TodoList todos = {todos}
+                <TodoList todos = {todoList}
+                          onTodoCompletedToggle={this._handleTodoItemCompletedToggle}
                           onTodoItemSave={this._handleTodoItemSave}
                           onTodoItemDeleted={this._handleTodoItemDeleted} />
-                <Toolbar />
+                <Toolbar done={this._countCompleted()}
+                         selected={filters}
+                         onFilter={this._handleFilter}
+                         handleToggleCheckAll={this._onToggleCheckAll}
+                         onClearCompletedBtnClicked={this._handleClearCompletedBtnClick}
+                         total={this._countAll()} />
             </section>
         )
     }

@@ -20,7 +20,7 @@ const CreateTodo = React.createClass({
         let {onEnterKeyDown} = this.props,
             id = new Date().getTime() + 2016,
             {content} = this.state;
-        onEnterKeyDown && onEnterKeyDown({content, id});
+        onEnterKeyDown && onEnterKeyDown({content, id, isCompleted : false});
         this.setState({content : ''});
     },
     render() {

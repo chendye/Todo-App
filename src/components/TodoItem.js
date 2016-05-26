@@ -21,6 +21,8 @@ const TodoItem = React.createClass({
         let status = e.target.checked ? 'completed' : '';
         const stopPropagation = e.stopPropagation||e.cancelBubble;
         stopPropagation.call(e);
+        const {onCompletedToggle} = this.props;
+        onCompletedToggle && onCompletedToggle(todoId);
         this.setState({status});
     },
     _handleTodoItemClicked(id, e) {
@@ -47,7 +49,7 @@ const TodoItem = React.createClass({
         this.setState({isHovered : !isHovered});
     },
     render() {
-        const {content, id} = this.props;
+        const {content, id, isCompleted} = this.props;
         const {status, isHovered} = this.state;
         return (
             <li className={`todo-item ${status}`}
@@ -57,6 +59,7 @@ const TodoItem = React.createClass({
                 <div className="view">
                     <input type="checkbox"
                            title="done"
+                           checked={isCompleted}
                            onClick={this._handleCompletedCheckboxClicked.bind(this, id)} />
                     <label>{content}</label>
                     <button className="delete" style={{display : (isHovered ? '' : 'none')}}
