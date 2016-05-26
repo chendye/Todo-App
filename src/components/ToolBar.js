@@ -11,7 +11,7 @@ const ToolBar = React.createClass({
             selected : 'all'
         }
     },
-    _select(selected, self) {
+    _shouldSelect(selected, self) {
         return selected === self ? 'selected' : ''
     },
     _toggleCheckAll() {
@@ -37,9 +37,9 @@ const ToolBar = React.createClass({
                        onClick={this._toggleCheckAll} />
                 <span className="footer-item count">{`${done}done/${total}total`}</span>
                 <ul className="footer-item filters">
-                    <li><a onClick={this._filterData.bind(null, 'all')} href="#" className={this._select(selected, 'all')}>All</a></li>
-                    <li><a onClick={this._filterData.bind(null, 'active')} href="#" className={this._select(selected, 'active')}>Active</a></li>
-                    <li><a onClick={this._filterData.bind(null, 'completed')} href="#" className={this._select(selected, 'completed')}>Completed</a></li>
+                    <li><a onClick={this._filterData.bind(null, 'all')} href="#" className={this._shouldSelect(selected, 'all')}>All</a></li>
+                    <li><a onClick={this._filterData.bind(null, 'active')} href="#" className={this._shouldSelect(selected, 'active')}>Active</a></li>
+                    <li><a onClick={this._filterData.bind(null, 'completed')} href="#" className={this._shouldSelect(selected, 'completed')}>Completed</a></li>
                 </ul>
                 <button style={{display : (done > 0 ? '' : 'none')}}
                         onClick={this._handleClearCompleted}
