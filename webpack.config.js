@@ -8,7 +8,7 @@ const uglifyJS = new webpack.optimize.UglifyJsPlugin({compress : false});
 module.exports = {
     devtools : 'source-map',
     entry : {
-        client : "./src/components/app.js"
+        client : "./src/components/App.js"
     },
     output : {
         path : './assets/js',

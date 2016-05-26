@@ -2,27 +2,10 @@
  * Created by onlycrazy on 16/5/25.
  */
 import React from 'react'
+import Morearty from 'morearty'
 import DOMUtil from '../utils/dom'
 const TodoItem = React.createClass({
-    getInitialState() {
-        return {
-            status : '',
-            isHovered : false
-        }
-    },
-
-    _handleDelBtnClick(todoId, e) {
-        let stopPropagation = e.stopPropagation || e.cancelBubble;
-        stopPropagation.call(e);
-        const {onDelTodoBtnClicked} = this.props;
-        onDelTodoBtnClicked && onDelTodoBtnClicked(todoId);
-    },
-    _handleCompletedCheckboxClicked(todoId, e) {
-        const stopPropagation = e.stopPropagation||e.cancelBubble;
-        stopPropagation.call(e);
-        const {onCompletedToggle} = this.props;
-        onCompletedToggle && onCompletedToggle(todoId);
-    },
+    mixins : [Morearty.Mixin],
     _handleTodoItemClicked(id, e) {
         const {status} = this.state;
         if ( status !== 'editing' ) {
@@ -32,52 +15,40 @@ const TodoItem = React.createClass({
             setTimeout(()=> DOMUtil.setFocus(this.refs.edit) ,0);
         }
     },
-    _handleEnterKeyDown(id, e) {
-        if (e.charCode !== 13) return false;
-        this._handleSave(id, e);
-    },
-    _handleSave(id,e ) {
-        const content = e.target.value;
-        const {onSave} = this.props;
-        this.setState({status : ''});
-        onSave && onSave({content, id});
-    },
     _toggleHover(e) {
-        let {isHovered} = this.state;
-        this.setState({isHovered : !isHovered});
+        //let {isHovered} = this.state;
+        //this.setState({isHovered : !isHovered});
     },
-    _getTheItemStatus() {
-        const {isCompleted} = this.props;
-        const {status} = this.state;
-        if (isCompleted) {
+    _getTheItemStatus(completed, editing) {
+        if (completed) {
             return 'completed';
-        }else if(status === 'editing') {
+        }else if(editing) {
             return 'editing';
         }else return '';
     },
     render() {
-        const {content, id, isCompleted} = this.props;
-        const {isHovered} = this.state;
+        const todoItem = this.getDefaultBinding().get();
+        const id = todoItem.get('id'),
+            content = todoItem.get('content'),
+            completed = todoItem.get('completed'),
+            editing = todoItem.get('editing');
+        const isHovered = false;
         return (
-            <li className={`todo-item ${this._getTheItemStatus()}`}
+            <li className={`todo-item ${this._getTheItemStatus(completed, editing)}`}
                 onMouseOver={this._toggleHover}
                 onMouseOut={this._toggleHover}
                 onClick={this._handleTodoItemClicked.bind(this, id)}>
                 <div className="view">
-                    <input type="checkbox"
+                    <Morearty.DOM.input type="checkbox"
                            title="done"
-                           checked={isCompleted}
-                           onClick={this._handleCompletedCheckboxClicked.bind(this, id)} />
+                           checked={completed}/>
                     <label>{content}</label>
-                    <button className="delete" style={{display : (isHovered ? '' : 'none')}}
-                            onClick={this._handleDelBtnClick.bind(this, id)}>
+                    <button className="delete" style={{display : (isHovered ? '' : 'none')}}>
                         x
                     </button>
                 </div>
-                <input className="edit" defaultValue={content} type="text"
-                       ref="edit"
-                       onBlur={this._handleSave.bind(this, id)}
-                       onKeyPress={this._handleEnterKeyDown.bind(this, id)} />
+                <Morearty.DOM.input className="edit" defaultValue={content} type="text"
+                       ref="edit"/>
             </li>
         )
     }
