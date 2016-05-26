@@ -96,7 +96,7 @@
 	        var todos = this.state.todos;
 
 	        this.setState({
-	            todos: [].concat(_toConsumableArray(todos), [todo])
+	            todos: [todo].concat(_toConsumableArray(todos))
 	        });
 	    },
 	    _handleTodoItemSave: function _handleTodoItemSave(todo) {

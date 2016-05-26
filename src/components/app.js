@@ -27,7 +27,7 @@ const App = React.createClass({
     _handleTodoCreated(todo) {
         const {todos} = this.state;
         this.setState({
-            todos : [...todos, todo]
+            todos : [todo, ...todos]
         })
     },
     _handleTodoItemSave(todo) {
