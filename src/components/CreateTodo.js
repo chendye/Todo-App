@@ -16,9 +16,11 @@ const CreateTodo = React.createClass({
     },
     _handleEnterKeyDown(e) {
         if (e.charCode != 13) return false;
+        const {content} = this.state;
+
+        if(!content) return false;
         let {onEnterKeyDown} = this.props,
-            id = new Date().getTime() + 2016,
-            {content} = this.state;
+            id = new Date().getTime() + 2016;
         onEnterKeyDown && onEnterKeyDown({content, id, isCompleted : false});
         this.setState({content : ''});
     },
