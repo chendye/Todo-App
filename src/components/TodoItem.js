@@ -2,23 +2,24 @@
  * Created by onlycrazy on 16/5/25.
  */
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Morearty from 'morearty'
 import TodoActions from '../actions/TodoActions'
 import DOMUtil from '../utils/dom'
 const TodoItem = React.createClass({
     mixins : [Morearty.Mixin],
-    _handleClick(id, e) {
-        const {status} = this.state;
-        if ( status !== 'editing' ) {
-            this.setState({
-                status : 'editing'
-            });
-            setTimeout(()=> DOMUtil.setFocus(this.refs.edit) ,0);
+
+    componentDidUpdate() {
+        const ctx = this.getMoreartyContext();
+        if (ctx.isChanged(this.getDefaultBinding().sub('editing'))) {
+            /*editDom.focus();
+            editDom.setSelectionRange()*/
+            const editDom = ReactDOM.findDOMNode(this.refs.edit);
+            DOMUtil.setFocus(editDom);
         }
     },
-    _toggleHover(e) {
-        //let {isHovered} = this.state;
-        //this.setState({isHovered : !isHovered});
+    _handleEdit(id) {
+        TodoActions.edit(id, true);
     },
     _getTheItemStatus(completed, editing) {
         if (completed) {
@@ -37,23 +38,21 @@ const TodoItem = React.createClass({
             content = e.target.value;
         TodoActions.save(id, content);
     },
-    render() {
+    render: function() {
         const todoItem = this.getDefaultBinding().get();
         const id = todoItem.get('id'),
             content = todoItem.get('content'),
             completed = todoItem.get('completed'),
             editing = todoItem.get('editing'),
             hovered = todoItem.get('hovered');
-        const isHovered = false;
         return (
-            <li className={`todo-item ${this._getTheItemStatus(completed, editing)}`}
-                onMouseOver={this._toggleHover}
-                onMouseOut={this._toggleHover}>
+            <li className={`todo-item ${this._getTheItemStatus(completed, editing)}`}>
                 <div className="view">
                     <Morearty.DOM.input type="checkbox"
-                           title="done"
-                           checked={completed} onChange={this._handleToggleComplete}/>
-                    <label onClick={TodoActions.edit.bind(null,id, true)}>{content}</label>
+                                        title="done"
+                                        checked={completed}
+                                        onChange={this._handleToggleComplete}/>
+                    <label onClick={this._handleEdit.bind(null,id)}>{content}</label>
                     <button className="delete"
                             onClick={TodoActions.destroy.bind(null, id)}>
                         x
@@ -62,7 +61,7 @@ const TodoItem = React.createClass({
                 <Morearty.DOM.input className="edit" defaultValue={content} type="text"
                                     onKeyDown={Morearty.Callback.onEnter(this._handleSave)}
                                     onBlur={TodoActions.edit.bind(null, id, false)}
-                                    ref="edit"/>
+                                    ref='edit'/>
             </li>
         )
     }

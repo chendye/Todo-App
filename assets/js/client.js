@@ -24654,6 +24654,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(38);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
 	var _morearty = __webpack_require__(168);
 
 	var _morearty2 = _interopRequireDefault(_morearty);
@@ -24668,31 +24672,22 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	/**
-	 * Created by onlycrazy on 16/5/25.
-	 */
-
 	var TodoItem = _react2.default.createClass({
 	    displayName: 'TodoItem',
 
 	    mixins: [_morearty2.default.Mixin],
-	    _handleClick: function _handleClick(id, e) {
-	        var _this = this;
 
-	        var status = this.state.status;
-
-	        if (status !== 'editing') {
-	            this.setState({
-	                status: 'editing'
-	            });
-	            setTimeout(function () {
-	                return _dom2.default.setFocus(_this.refs.edit);
-	            }, 0);
+	    componentDidUpdate: function componentDidUpdate() {
+	        var ctx = this.getMoreartyContext();
+	        if (ctx.isChanged(this.getDefaultBinding().sub('editing'))) {
+	            /*editDom.focus();
+	            editDom.setSelectionRange()*/
+	            var editDom = _reactDom2.default.findDOMNode(this.refs.edit);
+	            _dom2.default.setFocus(editDom);
 	        }
 	    },
-	    _toggleHover: function _toggleHover(e) {
-	        //let {isHovered} = this.state;
-	        //this.setState({isHovered : !isHovered});
+	    _handleEdit: function _handleEdit(id) {
+	        _TodoActions2.default.edit(id, true);
 	    },
 	    _getTheItemStatus: function _getTheItemStatus(completed, editing) {
 	        if (completed) {
@@ -24711,6 +24706,7 @@
 	            content = e.target.value;
 	        _TodoActions2.default.save(id, content);
 	    },
+
 	    render: function render() {
 	        var todoItem = this.getDefaultBinding().get();
 	        var id = todoItem.get('id'),
@@ -24718,21 +24714,19 @@
 	            completed = todoItem.get('completed'),
 	            editing = todoItem.get('editing'),
 	            hovered = todoItem.get('hovered');
-	        var isHovered = false;
 	        return _react2.default.createElement(
 	            'li',
-	            { className: 'todo-item ' + this._getTheItemStatus(completed, editing),
-	                onMouseOver: this._toggleHover,
-	                onMouseOut: this._toggleHover },
+	            { className: 'todo-item ' + this._getTheItemStatus(completed, editing) },
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'view' },
 	                _react2.default.createElement(_morearty2.default.DOM.input, { type: 'checkbox',
 	                    title: 'done',
-	                    checked: completed, onChange: this._handleToggleComplete }),
+	                    checked: completed,
+	                    onChange: this._handleToggleComplete }),
 	                _react2.default.createElement(
 	                    'label',
-	                    { onClick: _TodoActions2.default.edit.bind(null, id, true) },
+	                    { onClick: this._handleEdit.bind(null, id) },
 	                    content
 	                ),
 	                _react2.default.createElement(
@@ -24748,7 +24742,10 @@
 	                ref: 'edit' })
 	        );
 	    }
-	});
+	}); /**
+	     * Created by onlycrazy on 16/5/25.
+	     */
+
 
 	exports.default = TodoItem;
 

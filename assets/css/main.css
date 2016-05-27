@@ -61,6 +61,10 @@ input {
 input.edit {
     width: 70%;
 }
+li.todo-item label {
+    display: inline-block;
+    width: 70%;
+}
 .content-create {
     height: 30px;
 }
