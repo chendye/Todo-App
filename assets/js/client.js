@@ -24686,12 +24686,8 @@
 	    componentDidUpdate: function componentDidUpdate() {
 	        var ctx = this.getMoreartyContext();
 	        if (ctx.isChanged(this.getDefaultBinding().sub('editing'))) {
-	            /*editDom.focus();
-	            editDom.setSelectionRange()*/
 	            var editDom = _reactDom2.default.findDOMNode(this.refs.edit);
-	            //DOMUtil.setFocus(editDom);
-	            editDom.focus();
-	            editDom.setSelectionRange(0, editDom.value.length);
+	            _dom2.default.setFocus(editDom);
 	        }
 	    },
 	    _handleEdit: function _handleEdit(id) {
