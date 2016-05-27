@@ -24477,7 +24477,13 @@
 	            var itemBinding = findItemBinding(id, this.itemsBinding);
 	            itemBinding.atomically().set('completed', completed).commit();
 	        },
-	        onToggleCompleteAll: function onToggleCompleteAll() {},
+	        onToggleCompleteAll: function onToggleCompleteAll(checked) {
+	            this.itemsBinding.update(function (items) {
+	                return items.map(function (item) {
+	                    return item.set('completed', checked);
+	                });
+	            });
+	        },
 	        onClearCompleted: function onClearCompleted() {
 	            this.itemsBinding.update(function (items) {
 	                return items.filter(function (todo, index) {
@@ -24814,6 +24820,9 @@
 
 	    mixins: [_morearty2.default.Mixin],
 
+	    _handleToggleCompleteAll: function _handleToggleCompleteAll(e) {
+	        _TodoActions2.default.toggleCompleteAll(e.target.checked);
+	    },
 	    render: function render() {
 	        var filterBy = _TodoActions2.default.filterBy;
 	        var filter = this.getDefaultBinding().sub('filter').get(),
@@ -24830,7 +24839,7 @@
 	            _react2.default.createElement(_morearty2.default.DOM.input, { type: 'checkbox',
 	                className: 'footer-item complete-all',
 	                checked: done === total,
-	                onClick: this._toggleCheckAll }),
+	                onChange: this._handleToggleCompleteAll }),
 	            _react2.default.createElement(
 	                'span',
 	                { className: 'footer-item count' },

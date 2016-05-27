@@ -9,6 +9,9 @@ import TodoActions from '../actions/TodoActions'
 const ToolBar = React.createClass({
     mixins : [Morearty.Mixin],
 
+    _handleToggleCompleteAll(e) {
+        TodoActions.toggleCompleteAll(e.target.checked);
+    },
     render() {
         const filterBy = TodoActions.filterBy;
         const filter = this.getDefaultBinding().sub('filter').get(),
@@ -24,7 +27,7 @@ const ToolBar = React.createClass({
                 <Morearty.DOM.input type="checkbox"
                        className="footer-item complete-all"
                        checked={done === total}
-                       onClick={this._toggleCheckAll} />
+                       onChange={this._handleToggleCompleteAll} />
                 <span className="footer-item count">{`${done} completed/${total} total`}</span>
                 <ul className="footer-item filters">
                     <li><a onClick={filterBy.bind(TodoActions, 'all')} href="#" className={filter === 'all' ? 'selected' : ''}>All</a></li>

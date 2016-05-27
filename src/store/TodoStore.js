@@ -53,8 +53,12 @@ export default function configureStore(maCtx) {
             const itemBinding = findItemBinding(id, this.itemsBinding);
             itemBinding.atomically().set('completed', completed).commit();
         },
-        onToggleCompleteAll() {
-
+        onToggleCompleteAll(checked) {
+            this.itemsBinding.update(function (items) {
+                return items.map(function (item) {
+                    return item.set('completed', checked);
+                })
+            })
         },
         onClearCompleted() {
             this.itemsBinding.update(function (items) {
