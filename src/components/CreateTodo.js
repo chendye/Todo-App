@@ -2,14 +2,15 @@
  * Created by onlycrazy on 16/5/25.
  */
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Morearty from 'morearty'
 import TodoActions from '../actions/TodoActions'
 
 const CreateTodo = React.createClass({
     mixins : [Morearty.Mixin],
     componentDidMount() {
-        //this.refs.createTodo.getDOMNode().focus();
-        console.log('mounted...');
+        const createTodoDon = ReactDOM.findDOMNode(this.refs.createTodo);
+        createTodoDon.focus();
     },
 
     _handleCreate(e) {

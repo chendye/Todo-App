@@ -24528,6 +24528,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(38);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
 	var _morearty = __webpack_require__(168);
 
 	var _morearty2 = _interopRequireDefault(_morearty);
@@ -24538,13 +24542,18 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/**
+	 * Created by onlycrazy on 16/5/25.
+	 */
+
+
 	var CreateTodo = _react2.default.createClass({
 	    displayName: 'CreateTodo',
 
 	    mixins: [_morearty2.default.Mixin],
 	    componentDidMount: function componentDidMount() {
-	        //this.refs.createTodo.getDOMNode().focus();
-	        console.log('mounted...');
+	        var createTodoDon = _reactDom2.default.findDOMNode(this.refs.createTodo);
+	        createTodoDon.focus();
 	    },
 	    _handleCreate: function _handleCreate(e) {
 	        var content = e.target.value;
@@ -24565,10 +24574,7 @@
 	                onKeyDown: _morearty2.default.Callback.onEnter(this._handleCreate) })
 	        );
 	    }
-	}); /**
-	     * Created by onlycrazy on 16/5/25.
-	     */
-
+	});
 
 	exports.default = CreateTodo;
 
