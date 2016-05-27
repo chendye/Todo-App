@@ -24689,7 +24689,9 @@
 	            /*editDom.focus();
 	            editDom.setSelectionRange()*/
 	            var editDom = _reactDom2.default.findDOMNode(this.refs.edit);
-	            _dom2.default.setFocus(editDom);
+	            //DOMUtil.setFocus(editDom);
+	            editDom.focus();
+	            editDom.setSelectionRange(0, editDom.value.length);
 	        }
 	    },
 	    _handleEdit: function _handleEdit(id) {

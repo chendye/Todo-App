@@ -12,8 +12,6 @@ const TodoItem = React.createClass({
     componentDidUpdate() {
         const ctx = this.getMoreartyContext();
         if (ctx.isChanged(this.getDefaultBinding().sub('editing'))) {
-            /*editDom.focus();
-            editDom.setSelectionRange()*/
             const editDom = ReactDOM.findDOMNode(this.refs.edit);
             DOMUtil.setFocus(editDom);
         }
