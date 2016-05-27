@@ -2,37 +2,34 @@
  * Created by onlycrazy on 16/5/25.
  */
 import React from 'react'
+import ReactDOM from 'react-dom'
+import Morearty from 'morearty'
+import TodoActions from '../actions/TodoActions'
 
 const CreateTodo = React.createClass({
-    getInitialState() {
-        return {
-            content : ''
-        }
+    mixins : [Morearty.Mixin],
+    componentDidMount() {
+        const createTodoDon = ReactDOM.findDOMNode(this.refs.createTodo);
+        createTodoDon.focus();
     },
-    _handleFormChange(e) {
-        this.setState({
-            content : e.target.value
-        })
-    },
-    _handleEnterKeyDown(e) {
-        if (e.charCode != 13) return false;
-        const {content} = this.state;
 
-        if(!content) return false;
-        let {onEnterKeyDown} = this.props,
-            id = new Date().getTime() + 2016;
-        onEnterKeyDown && onEnterKeyDown({content, id, isCompleted : false});
-        this.setState({content : ''});
+    _handleCreate(e) {
+        let content = e.target.value;
+
+        if(content) {
+            TodoActions.create(content);
+        }
+        e.target.value = '';
     },
+
     render() {
         return (
             <header>
-                <input className="content-create"
-                       type="text"
-                       placeholder="请输入内容并按回车键保存"
-                       onChange={this._handleFormChange}
-                       onKeyPress={this._handleEnterKeyDown}
-                       value={this.state.content} />
+                <Morearty.DOM.input className="content-create"
+                                    ref="createTodo"
+                                    type="text"
+                                    placeholder="请输入内容并按回车键保存"
+                                    onKeyDown={ Morearty.Callback.onEnter(this._handleCreate) }/>
             </header>
         )
     }

@@ -22,8 +22,10 @@
   "homepage": "https://github.com/loveholly/Todo-App#readme",
   "dependencies": {
     "immutable": "^3.8.1",
+    "morearty": "^0.7.25",
     "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "react-dom": "^15.1.0",
+    "reflux": "^0.4.1"
   },
   "devDependencies": {
     "babel-loader": "^6.2.4",
